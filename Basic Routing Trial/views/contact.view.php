@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact</title>
-</head>
+require "partials/Head.partial.php";
 
-<body>
-  contact
-</body>
 
-</html>
+require "partials/Bottom.partial.php";
