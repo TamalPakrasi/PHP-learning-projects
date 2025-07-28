@@ -1,6 +1,6 @@
 <?php $mainPath = "/PHP-Mini%20Projects/Basic%20Routing%20Trial"; ?>
 
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100 shadow-sm sticky top-0 left-0 z-99">
   <div class="navbar-start">
     <a class="btn btn-ghost text-xl">daisyUI</a>
   </div>
