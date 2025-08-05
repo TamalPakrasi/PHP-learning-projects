@@ -1,4 +1,4 @@
-<form action="" method="post" enctype="multipart/form-data" class="flex flex-col gap-2">
+<form action="/uploadFile" method="post" enctype="multipart/form-data" class="flex flex-col gap-2">
   <h1 class="text-center font-bold text-2xl">Sign Up</h1>
   <p class="text-lg font-semibold border-b py-2">Please fill in this form to create an account.</p>
 
