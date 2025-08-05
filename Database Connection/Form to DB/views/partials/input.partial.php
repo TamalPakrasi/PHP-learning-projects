@@ -1,0 +1,2 @@
+<label for="<?php echo $label; ?>" class="font-bold capitalize"><?php echo $label; ?></label>
+<input type="<?php echo $type; ?>" placeholder="<?php echo $placeholder; ?>" name="<?php echo $name; ?>" class="py-2 px-3 rounded-2 border-black outline-0" id="<?php echo $label; ?>" autocomplete="off" required>

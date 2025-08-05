@@ -2,6 +2,7 @@
   position: sticky;
   top: 0;
   left: 0;
+  z-index: 99;
 }
 
 .navbar-end {
@@ -27,4 +28,19 @@
 
 .hover\:btn-blue-600:hover {
   background-color: rgb(0, 37, 250);
+}
+
+.choose-file {
+  color: black;
+  font-weight: 550;
+  font-size: 0.75rem;
+}
+
+.choose-file::file-selector-button {
+  background-color: rgb(45, 75, 248);
+  color: white;
+  border: 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }

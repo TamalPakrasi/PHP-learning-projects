@@ -4,7 +4,7 @@ $buttons = array("Sign up", "Sign in");
 
 ?>
 
-<nav class="py-3 px-6 border-b sticky-navbar flex-between">
+<nav class="py-3 px-6 border-b sticky-navbar flex-between backdrop-blur-xs">
   <div class="navbar-start">
     <a href="/">
       <img src="/assets/images/php.png" alt="php" width="64" height="64">
