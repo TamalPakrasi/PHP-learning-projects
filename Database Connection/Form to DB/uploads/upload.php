@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/../models/database.model.php";
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $file = $_FILES["file"];
 
