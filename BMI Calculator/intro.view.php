@@ -40,7 +40,7 @@
       <h2>Metric Results:</h2>
       <?php foreach ($response as $key => $value) : ?>
         <div class="w-25 p-2 rounded-2 bg-white text-black text-center fw-bold" style="user-select: none;">
-          <?= "$key: $value" ?>
+          <?php echo "$key: $value" ?>
         </div>
       <?php endforeach; ?>
     <?php endif; ?>

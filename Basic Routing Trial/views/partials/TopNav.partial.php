@@ -7,17 +7,17 @@
   <div class="navbar-center ">
     <ul class="menu menu-horizontal px-1">
       <li>
-        <a href="<?= $mainPath ?>/home" class="<?= isURl("{$mainPath}/home"); ?>">
+        <a href="<?php echo $mainPath ?>/home" class="<?php echo isURl("{$mainPath}/home"); ?>">
           Home
         </a>
       </li>
       <li>
-        <a href="<?= $mainPath ?>/about" class="<?= isURl("{$mainPath}/about"); ?>">
+        <a href="<?php echo $mainPath ?>/about" class="<?php echo isURl("{$mainPath}/about"); ?>">
           About
         </a>
       </li>
       <li>
-        <a href="<?= $mainPath ?>/contact" class="<?= isURl("{$mainPath}/contact"); ?>">Contact
+        <a href="<?php echo $mainPath ?>/contact" class="<?php echo isURl("{$mainPath}/contact"); ?>">Contact
         </a>
       </li>
     </ul>
