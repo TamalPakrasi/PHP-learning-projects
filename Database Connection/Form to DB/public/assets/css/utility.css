@@ -1,0 +1,21 @@
+.py-3 {
+  padding-block: 0.75rem; 
+}
+
+.px-6 {
+  padding-inline: 1.5rem;
+}
+
+.border-b {
+  border-bottom: 1px solid black;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}

@@ -1,0 +1,30 @@
+.sticky-navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
+.navbar-end {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn {
+  display: inline-block;
+  cursor: pointer;
+  padding-block: 0.5rem;
+  padding-inline: 0.75rem;
+  border-radius: 0.75rem;
+  border-width: 1px;
+  font-size: 1rem;
+}
+
+.btn-blue-500 {
+  border-color: transparent;
+  background-color: rgb(45, 75, 248);
+  color: #fff;
+}
+
+.hover\:btn-blue-600:hover {
+  background-color: rgb(0, 37, 250);
+}
