@@ -192,7 +192,7 @@ if (!$res) {
   <?php if (isset($_GET["msg"])) { ?>
 
     <div id="alert">
-      <span><?php echo $_GET["msg"]; ?></span> <span style="cursor: pointer">&cross;</span>
+      <span><?php echo $_GET["msg"]; ?></span> <span id="close-alert" style="cursor: pointer">&cross;</span>
     </div>
 
   <?php } ?>
@@ -246,6 +246,14 @@ if (!$res) {
     const deleteAllComplete = document.getElementById("deleteAllComplete");
 
     const noOfCompletes = document.querySelectorAll(".complete").length;
+
+    const closeAlert = document.getElementById("close-alert");
+
+    if (closeAlert) {
+      closeAlert.addEventListener("click", () => {
+        document.getElementById("alert").style.animation = "none";
+      });
+    }
 
     let isEditing = false;
 
