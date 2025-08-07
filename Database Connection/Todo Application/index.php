@@ -146,11 +146,53 @@ if (!$res) {
     .delete:hover {
       opacity: 0.9;
     }
+
+    .pointer-event-not-allowed {
+      pointer-events: none !important;
+    }
+
+    #alert {
+      background-color: green;
+      color: white;
+      border-radius: 10px;
+      width: fit-content;
+      padding: 6px;
+      position: relative;
+      top: 20px;
+      margin-inline: auto;
+      animation: showAlert 5000ms linear 0.2s 1 forwards;
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+
+    @keyframes showAlert {
+
+      0%,
+      100% {
+        opacity: 0;
+        transform: translateY(-100px);
+      }
+
+      10%,
+      90% {
+        opacity: 100%;
+        transform: translateY(0px);
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="container">
+
+  <?php if (isset($_GET["msg"])) { ?>
+
+    <div id="alert">
+      <span><?php echo $_GET["msg"]; ?></span> <span style="cursor: pointer">&cross;</span>
+    </div>
+
+  <?php } ?>
+
+  <div class="container" style="margin-top: 3.5rem">
     <h1>Todo App</h1>
     <form action="back.php" method="post">
       <input type="text" placeholder="Add new todo..." name="todo" required>
@@ -169,7 +211,7 @@ if (!$res) {
         <div class="<?php echo $data["isComplete"] ? "complete" : ""; ?>">
           <div class="todo-header">
             <span class="title priority-<?php echo $data["priority"]; ?>"><?php echo $data["todo"]; ?></span>
-            <span><?php echo $data["priority"]; ?></span>
+            <span class="priority-<?php echo $data["priority"]; ?>"><?php echo $data["priority"]; ?></span>
           </div>
           <div class="timestamps">
             Created at: <?php echo $data["created_at"]; ?><br>
@@ -177,45 +219,45 @@ if (!$res) {
           </div>
         </div>
         <div class="actions">
-          <button class="<?php echo $data["isComplete"] ? "complete" : ""; ?>">Mark Complete</button>
-          <button class="edit">Edit</button>
-          <button class="delete">Delete</button>
+          <button class="<?php echo $data["isComplete"] ? "complete pointer-event-not-allowed" : "incomplete"; ?>" data-id="c-<?php echo $data['id']; ?>">Mark Complete</button>
+          <button class="edit" data-id="e-<?php echo $data['id']; ?>">Edit</button>
+          <button class="delete" data-id="d-<?php echo $data['id']; ?>">Delete</button>
         </div>
       </div>
     <?php } ?>
-
-    <!-- <div class="todo-item">
-      <div class="todo-header">
-        <span class="title priority-low">Buy groceries</span>
-        <span>Low</span>
-      </div>
-      <div class="timestamps">
-        Created at: 2024-08-03 15:12:00<br>
-        Updated at: 2024-08-03 15:12:00
-      </div>
-      <div class="actions">
-        <button class="complete">Mark Complete</button>
-        <button class="edit">Edit</button>
-        <button class="delete">Delete</button>
-      </div>
-    </div>
-
-    <div class="todo-item">
-      <div class="todo-header">
-        <span class="title priority-high">Prepare presentation</span>
-        <span>High</span>
-      </div>
-      <div class="timestamps">
-        Created at: 2024-08-01 11:00:00<br>
-        Updated at: 2024-08-04 09:30:00
-      </div>
-      <div class="actions">
-        <button class="complete">Mark Complete</button>
-        <button class="edit">Edit</button>
-        <button class="delete">Delete</button>
-      </div>
-    </div> -->
   </div>
+
+  <script>
+    const incomplete = document.querySelectorAll(".incomplete");
+    const editBtns = document.querySelectorAll(".edit");
+    const deleteBtns = document.querySelectorAll(".delete");
+
+    if (incomplete) {
+      incomplete.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = e.currentTarget.dataset.id.slice(2);
+          location.href = `updatedelete.php?operation=markcomplete&id=${id}`;
+        });
+      })
+    }
+
+    // if (editBtns) {
+    //   edit.forEach(btn => {
+    //     btn.addEventListener("click", (e) => {
+
+    //     })
+    //   })
+    // }
+
+    if (deleteBtns) {
+      deleteBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = e.currentTarget.dataset.id.slice(2);
+          location.href = `updatedelete.php?operation=markdelete&id=${id}`;
+        });
+      })
+    }
+  </script>
 </body>
 
 </html>
