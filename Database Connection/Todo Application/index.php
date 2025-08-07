@@ -9,7 +9,6 @@ $res = mysqli_query($conn, $sql);
 if (!$res) {
   die("Something went wrong!");
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -165,6 +164,12 @@ if (!$res) {
       transform: translateY(-100px);
     }
 
+    #deleteAllComplete {
+      background-color: gray;
+      color: #ffffff;
+      width: 100%
+    }
+
     @keyframes showAlert {
 
       0%,
@@ -195,8 +200,8 @@ if (!$res) {
   <div class="container" style="margin-top: 3.5rem">
     <h1>Todo App</h1>
     <form action="back.php" method="post">
-      <input type="text" placeholder="Add new todo..." name="todo" required>
-      <select name="priority">
+      <input type="text" id="field" placeholder="Add new todo..." name="todo" required>
+      <select name="priority" id="priority-field">
         <option value="low">Low</option>
         <option value="medium" selected>Medium</option>
         <option value="high">High</option>
@@ -210,8 +215,8 @@ if (!$res) {
       <div class="todo-item">
         <div class="<?php echo $data["isComplete"] ? "complete" : ""; ?>">
           <div class="todo-header">
-            <span class="title priority-<?php echo $data["priority"]; ?>"><?php echo $data["todo"]; ?></span>
-            <span class="priority-<?php echo $data["priority"]; ?>"><?php echo $data["priority"]; ?></span>
+            <span data-id="t-<?php echo $data['id']; ?>" class="title priority-<?php echo $data["priority"]; ?>"><?php echo $data["todo"]; ?></span>
+            <span data-id="p-<?php echo $data['id']; ?>" class="priority-<?php echo $data["priority"]; ?>"><?php echo $data["priority"]; ?></span>
           </div>
           <div class="timestamps">
             Created at: <?php echo $data["created_at"]; ?><br>
@@ -225,14 +230,26 @@ if (!$res) {
         </div>
       </div>
     <?php } ?>
+
+    <div>
+      <button id="deleteAllComplete">Delete All Completed</button>
+    </div>
   </div>
 
   <script>
     const incomplete = document.querySelectorAll(".incomplete");
     const editBtns = document.querySelectorAll(".edit");
     const deleteBtns = document.querySelectorAll(".delete");
+    const field = document.getElementById("field");
+    const p_field = document.getElementById("priority-field");
+    const addBtn = document.querySelector(".add");
+    const deleteAllComplete = document.getElementById("deleteAllComplete");
 
-    if (incomplete) {
+    const noOfCompletes = document.querySelectorAll(".complete").length;
+
+    let isEditing = false;
+
+    if (incomplete.length > 0) {
       incomplete.forEach((btn) => {
         btn.addEventListener("click", (e) => {
           const id = e.currentTarget.dataset.id.slice(2);
@@ -241,15 +258,32 @@ if (!$res) {
       })
     }
 
-    // if (editBtns) {
-    //   edit.forEach(btn => {
-    //     btn.addEventListener("click", (e) => {
+    deleteAllComplete.addEventListener("click", (e) => {
+      if (noOfCompletes > 0)
+        location.href = `removeAllComplete.php?operation=removeallcomplete`;
+    })
 
-    //     })
-    //   })
-    // }
 
-    if (deleteBtns) {
+
+    if (editBtns.length) {
+      editBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          if (!isEditing) {
+            isEditing = true;
+            const id = e.currentTarget.dataset.id.slice(2);
+            const todo = document.querySelector(`[data-id=t-${id}]`);
+            const prio = document.querySelector(`[data-id=p-${id}]`);
+
+            field.value = todo.innerText;
+            p_field.value = prio.innerText;
+            addBtn.innerText = "Edit & Save";
+            document.querySelector("form").action = `updatedelete.php?operation=markedit&id=${id}`;
+          }
+        })
+      })
+    }
+
+    if (deleteBtns.length) {
       deleteBtns.forEach((btn) => {
         btn.addEventListener("click", (e) => {
           const id = e.currentTarget.dataset.id.slice(2);

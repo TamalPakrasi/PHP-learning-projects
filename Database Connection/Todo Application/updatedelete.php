@@ -30,6 +30,28 @@ if (isset($_GET["operation"]) && isset($_GET["id"]) && is_numeric($_GET["id"])) 
     } else {
       die("id does not exist");
     }
+  } else if ($_GET["operation"] === "markedit") {
+    $id = $_GET["id"];
+
+    if (!isset($_POST["todo"]) || !isset($_POST["priority"])) die("insufficient data");
+
+    $todo = $_POST["todo"];
+    $priority = $_POST["priority"];
+
+
+    $sql = "UPDATE `todo` SET `todo` = '$todo', `priority` = '$priority' WHERE `id` = {$id}";
+
+    $res = mysqli_query($conn, $sql);
+
+    if ($res && mysqli_affected_rows($conn) > 0) {
+      $msg = "Todo edited successfully";
+      header("Location: index.php?msg=$msg");
+      die();
+    } else {
+      die("id does not exist");
+    }
+  } else {
+    die("Invalid operations");
   }
 } else {
   die("Invalid update try");
