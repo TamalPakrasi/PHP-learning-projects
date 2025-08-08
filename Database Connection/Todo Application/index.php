@@ -2,7 +2,34 @@
 
 require_once __DIR__ . "/connect.php";
 
-$sql = "SELECT * FROM todo";
+$sql = "SELECT * FROM `todo`";
+
+if (isset($_GET["complete"]) && isset($_GET["priority"])) {
+  $completion = $_GET["complete"];
+  $prio = $_GET["priority"];
+
+  switch ($completion) {
+    case 'pending':
+      $comp = "0";
+      break;
+    case 'complete':
+      $comp = "1";
+      break;
+    default:
+      $comp = "all";
+      break;
+  }
+
+  if (!($completion === "all" && $prio === "any")) {
+    if ($completion === "all") {
+      $sql .= "WHERE priority LIKE '$prio'";
+    } else if ($prio === "any") {
+      $sql .= "WHERE isComplete = '$comp'";
+    } else {
+      $sql .= "WHERE isComplete = '$comp' AND priority LIKE '$prio'";
+    }
+  }
+}
 
 $res = mysqli_query($conn, $sql);
 
@@ -198,7 +225,7 @@ if (!$res) {
 
   <div class="container" style="margin-top: 3.5rem">
     <h1>Todo App</h1>
-    <form action="back.php" method="post">
+    <form method="post">
       <input type="text" id="field" placeholder="Add new todo..." name="todo" required>
       <select name="priority" id="priority-field">
         <option value="low">Low</option>
@@ -210,17 +237,30 @@ if (!$res) {
 
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px">
       <h4 style="grid-column: span 2; text-align: center">Filter by</h4>
-      <select id="completion-filter">
-        <option value="all" selected>All</option>
-        <option value="pending">Pending</option>
-        <option value="complete">Complete</option>
+      <select class="filter" name="completion-filter">
+
+        <?php
+        $selected_completion = $_GET["complete"] ?? "all";
+        $comp_options = ["all", "pending", "complete"];
+        foreach ($comp_options as $option) :
+        ?>
+          <option value="<?php echo $option; ?>"
+            <?php echo ($selected_completion === $option) ? "selected" : ""; ?>><?php echo $option; ?></option>
+        <?php endforeach; ?>
       </select>
-      <select id="priority-filter">
-        <option value="any" selected>Any</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
+
+
+      <select class="filter" name="priority-filter">
+        <?php
+        $selected_priority = $_GET["priority"] ?? "any";
+        $prio_options = ["any", "low", "medium", "high"];
+        foreach ($prio_options as $option) :
+        ?>
+          <option value="<?php echo $option; ?>"
+            <?php echo ($selected_priority === $option) ? "selected" : "" ?>><?php echo $option; ?></option>
+        <?php endforeach; ?>
       </select>
+
     </div>
 
     <?php
@@ -258,10 +298,30 @@ if (!$res) {
     const p_field = document.getElementById("priority-field");
     const addBtn = document.querySelector(".add");
     const deleteAllComplete = document.getElementById("deleteAllComplete");
+    const form = document.querySelector("form");
 
     const noOfCompletes = document.querySelectorAll(".complete").length;
 
     const closeAlert = document.getElementById("close-alert");
+
+    const filters = {};
+    const url = new URL(location.href);
+
+    function filterFunc() {
+      location.href = `${url.pathname}?complete=${filters["completion-filter"]}&priority=${filters["priority-filter"]}`;
+    }
+
+    document.querySelectorAll(".filter").forEach((select) => {
+      filters[select.name] = select.value;
+
+      if (url.searchParams.size === 0) filterFunc();
+
+      select.addEventListener("change", (e) => {
+        filters[e.target.name] = e.target.value;
+        filterFunc();
+      });
+    })
+
 
     if (closeAlert) {
       closeAlert.addEventListener("click", () => {
@@ -275,17 +335,25 @@ if (!$res) {
       incomplete.forEach((btn) => {
         btn.addEventListener("click", (e) => {
           const id = e.currentTarget.dataset.id.slice(2);
-          location.href = `updatedelete.php?operation=markcomplete&id=${id}`;
+          const encoded = encodeURIComponent(JSON.stringify(filters));
+          location.href = `updatedelete.php?operation=markcomplete&id=${id}&filter=${encoded}`;
         });
       })
     }
 
     deleteAllComplete.addEventListener("click", (e) => {
-      if (noOfCompletes > 0)
-        location.href = `removeAllComplete.php?operation=removeallcomplete`;
+      if (noOfCompletes > 0) {
+        const encoded = encodeURIComponent(JSON.stringify(filters));
+        location.href = `removeAllComplete.php?operation=removeallcomplete&filter=${encoded}`;
+      }
     })
 
-
+    form.addEventListener("submit", (e) => {
+      if (addBtn.innerText === "Add Todo") {
+        const encoded = encodeURIComponent(JSON.stringify(filters));
+        e.target.action = `back.php?filter=${encoded}`;
+      }
+    })
 
     if (editBtns.length) {
       editBtns.forEach(btn => {
@@ -299,7 +367,8 @@ if (!$res) {
             field.value = todo.innerText;
             p_field.value = prio.innerText;
             addBtn.innerText = "Edit & Save";
-            document.querySelector("form").action = `updatedelete.php?operation=markedit&id=${id}`;
+            const encoded = encodeURIComponent(JSON.stringify(filters));
+            form.action = `updatedelete.php?operation=markedit&id=${id}&filter=${encoded}`;
           }
         })
       })
@@ -309,7 +378,8 @@ if (!$res) {
       deleteBtns.forEach((btn) => {
         btn.addEventListener("click", (e) => {
           const id = e.currentTarget.dataset.id.slice(2);
-          location.href = `updatedelete.php?operation=markdelete&id=${id}`;
+          const encoded = encodeURIComponent(JSON.stringify(filters));
+          location.href = `updatedelete.php?operation=markdelete&id=${id}&filter=${encoded}`;
         });
       })
     }
