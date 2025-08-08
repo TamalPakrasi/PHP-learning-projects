@@ -43,7 +43,6 @@ if (!$res) {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-bottom: 35px;
     }
 
     input[type="text"],
@@ -208,6 +207,21 @@ if (!$res) {
       </select>
       <button class="add" type="submit">Add Todo</button>
     </form>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px">
+      <h4 style="grid-column: span 2; text-align: center">Filter by</h4>
+      <select id="completion-filter">
+        <option value="all" selected>All</option>
+        <option value="pending">Pending</option>
+        <option value="complete">Complete</option>
+      </select>
+      <select id="priority-filter">
+        <option value="any" selected>Any</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
 
     <?php
     while ($data = mysqli_fetch_assoc($res)) {
