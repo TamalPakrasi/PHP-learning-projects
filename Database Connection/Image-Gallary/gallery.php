@@ -6,9 +6,15 @@ require_once __DIR__ . "/dumpDie.php";
 $sql = "SELECT * FROM `gallery`";
 
 if (isset($_GET["filter"])) {
-  $tagname = (string) $_GET["filter"];
-  if (strlen($tagname) > 0) {
-    $sql .= "WHERE FIND_IN_SET('$tagname', REPLACE(tags, ' ', ''))";
+  $tagnames = (string) $_GET["filter"];
+  if (strlen($tagnames) > 0) {
+    $tagsArr = (array) explode(',', $tagnames);
+    $sql .= "WHERE FIND_IN_SET('{$tagsArr[0]}', REPLACE(tags, ' ', ''))";
+    if (count($tagsArr) > 1) {
+      for ($i=1; $i < count($tagsArr); $i++) { 
+        $sql .= "AND FIND_IN_SET('{$tagsArr[$i]}', REPLACE(tags, ' ', ''))";
+      }
+    }
   }
 }
 
@@ -39,6 +45,22 @@ require_once __DIR__ . "/partials/head.php";
       <?php endif; ?>
 
       <h2 class="mt-1">Gallery</h2>
+
+      <?php if (isset($_GET["filter"])) : ?>
+        <div class="my-3">
+          <h5 class="text-decoration-underline mb-3 text-center">Filter By</h5>
+          <div class="d-flex align-items-center gap-2" style="width: 400px;">
+            <?php foreach ($tagsArr as $tagname) : ?>
+              <div class="badge text-bg-primary p-2">
+                <span><?php echo $tagname; ?></span>
+                <span class="ms-2 close-filter" style="cursor: pointer;">&cross;</span>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      <?php endif; ?>
+
+
       <section class="row row-gap-5 w-50 mt-5">
         <?php while ($data = mysqli_fetch_assoc($res)) : ?>
           <div class="col-12 rounded-3 p-3" style="box-shadow: 0px 0px 20px 0px black;">
@@ -72,8 +94,11 @@ require_once __DIR__ . "/partials/head.php";
     if (tags) {
       tags.forEach(tag => {
         tag.addEventListener("click", (e) => {
+          const url = new URLSearchParams(location.search);
+          let filter = url.get("filter") ?? "";
           const tagname = e.currentTarget.innerText.toLowerCase();
-          location.href = `gallery.php?filter=${tagname}`;
+          filter += (filter.length > 0 ? "," : "") + tagname;
+          location.href = `gallery.php?filter=${filter}`;
         })
       })
     }
