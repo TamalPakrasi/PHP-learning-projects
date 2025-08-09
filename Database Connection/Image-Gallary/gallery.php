@@ -54,7 +54,7 @@ require_once __DIR__ . "/partials/head.php";
             <?php foreach ($tagsArr as $tagname) : ?>
               <div class="badge text-bg-primary p-2">
                 <span><?php echo $tagname; ?></span>
-                <span class="ms-2 close-filter" style="cursor: pointer;">&cross;</span>
+                <span class="ms-2 close-filter" data-id="<?php echo $tagname; ?>" style="cursor: pointer;">&cross;</span>
               </div>
             <?php endforeach; ?>
           </div>
@@ -63,7 +63,11 @@ require_once __DIR__ . "/partials/head.php";
 
 
       <section class="row row-gap-5 w-50 mt-5">
-        <?php while ($data = mysqli_fetch_assoc($res)) : ?>
+        <?php
+        $loopRunning = false;
+        while ($data = mysqli_fetch_assoc($res)) :
+          $loopRunning = true;
+        ?>
           <div class="col-12 rounded-3 p-3" style="box-shadow: 0px 0px 20px 0px black;">
             <div class="overflow-hidden rounded-3 border border-black">
               <img src="<?php echo "uploads/" . $data["name"] ?>" alt="" class="w-100 ratio-16x9 object-fit-cover">
@@ -77,6 +81,10 @@ require_once __DIR__ . "/partials/head.php";
             </div>
           </div>
         <?php endwhile; ?>
+
+        <?php if (!$loopRunning) : ?>
+          <h3 class="text-center">No Image</h3>
+        <?php endif; ?>
       </section>
     </main>
   </div>
@@ -85,6 +93,7 @@ require_once __DIR__ . "/partials/head.php";
     const alert = document.getElementById("alert");
     const closeAlert = document.getElementById("close-alert");
     const tags = document.querySelectorAll(".tag");
+    const closeFilter = document.querySelectorAll(".close-filter");
 
     if (closeAlert) {
       closeAlert.addEventListener("click", () => {
@@ -98,8 +107,25 @@ require_once __DIR__ . "/partials/head.php";
           const url = new URLSearchParams(location.search);
           let filter = url.get("filter") ?? "";
           const tagname = e.currentTarget.innerText.toLowerCase();
-          filter += (filter.length > 0 ? "," : "") + tagname;
-          location.href = `gallery.php?filter=${filter}`;
+          const regex = new RegExp(`^${tagname}$`, "i");
+          if (filter.search(regex) === -1) {
+            filter += (filter.length > 0 ? "," : "") + tagname;
+            location.href = `gallery.php?filter=${filter}`;
+          }
+        })
+      })
+    }
+
+    if (closeFilter) {
+      closeFilter.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const url = new URLSearchParams(location.search);
+          const filter = url.get("filter").toString().split(",");
+          const tagname = e.currentTarget.dataset.id;
+          if (filter.includes(tagname)) {
+            const newFilter = filter.filter(tag => tag !== tagname).join(',');
+            location.href = newFilter.length > 0 ? `gallery.php?filter=${newFilter}` : "gallery.php";
+          }
         })
       })
     }
