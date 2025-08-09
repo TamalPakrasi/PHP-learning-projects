@@ -5,12 +5,18 @@ require_once __DIR__ . "/dumpDie.php";
 
 $sql = "SELECT * FROM `gallery`";
 
+if (isset($_GET["filter"])) {
+  $tagname = (string) $_GET["filter"];
+  if (strlen($tagname) > 0) {
+    $sql .= "WHERE FIND_IN_SET('$tagname', REPLACE(tags, ' ', ''))";
+  }
+}
+
 $res = mysqli_query($conn, $sql);
 
 if (!$res) {
   dumpDie("Something went wrong");
 }
-
 ?>
 
 
@@ -55,10 +61,22 @@ require_once __DIR__ . "/partials/head.php";
   <script>
     const alert = document.getElementById("alert");
     const closeAlert = document.getElementById("close-alert");
+    const tags = document.querySelectorAll(".tag");
 
-    closeAlert.addEventListener("click", () => {
-      alert.style.animation = "none";
-    })
+    if (closeAlert) {
+      closeAlert.addEventListener("click", () => {
+        alert.style.animation = "none";
+      })
+    }
+
+    if (tags) {
+      tags.forEach(tag => {
+        tag.addEventListener("click", (e) => {
+          const tagname = e.currentTarget.innerText.toLowerCase();
+          location.href = `gallery.php?filter=${tagname}`;
+        })
+      })
+    }
   </script>
 </body>
 
