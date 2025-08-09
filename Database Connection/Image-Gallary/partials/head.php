@@ -11,5 +11,33 @@
     #root {
       min-height: 100dvh;
     }
+
+    <?php if (isset($_GET["msg"])) : ?>#alert {
+      background-color: green;
+      color: white;
+      border-radius: 10px;
+      width: fit-content;
+      padding: 6px;
+      position: absolute;
+      top: 8px;
+      margin-inline: auto;
+      animation: showAlert 5000ms linear 0.5s 1 forwards;
+      opacity: 0;
+    }
+
+    @keyframes showAlert {
+
+      0%,
+      100% {
+        opacity: 0;
+      }
+
+      10%,
+      90% {
+        opacity: 100%;
+      }
+    }
+
+    <?php endif; ?>
   </style>
 </head>
