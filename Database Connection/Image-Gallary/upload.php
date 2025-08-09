@@ -15,7 +15,7 @@ require_once __DIR__ . "/partials/head.php";
           <input class="form-control" name="file" type="file" id="formFile" required>
           <div class="pt-3">
             <label for="formTags" class="form-label fw-bold">Tags :</label>
-            <input type="text" class="form-control" placeholder="e.g: tag1, tag2, tag3" id="formTags" required>
+            <input type="text" class="form-control" name="tags" placeholder="e.g: tag1, tag2, tag3" id="formTags" required>
           </div>
           <input type="submit" value="Upload" class="btn btn-primary mt-3 w-100">
         </div>
