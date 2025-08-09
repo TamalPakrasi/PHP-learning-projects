@@ -11,8 +11,9 @@ if (isset($_GET["filter"])) {
     $tagsArr = (array) explode(',', $tagnames);
     $sql .= "WHERE FIND_IN_SET('{$tagsArr[0]}', REPLACE(tags, ' ', ''))";
     if (count($tagsArr) > 1) {
-      for ($i=1; $i < count($tagsArr); $i++) { 
-        $sql .= "AND FIND_IN_SET('{$tagsArr[$i]}', REPLACE(tags, ' ', ''))";
+      foreach ($tagsArr as $index => $tagname) {
+        if ($index === 0) continue;
+        else $sql .= "AND FIND_IN_SET('$tagname', REPLACE(tags, ' ', ''))";
       }
     }
   }
