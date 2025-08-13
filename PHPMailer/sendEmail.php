@@ -7,41 +7,56 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader (created by composer, not included with PHPMailer)
 require 'vendor/autoload.php';
+require_once __DIR__ . "/connect.php";
 
-//Create an instance; passing `true` enables exceptions
-$mail = new PHPMailer(true);
+function sendMail(string $to, string $subject, string $body, string $file, string $id)
+{
+  global $conn;
+  //Create an instance; passing `true` enables exceptions
+  $mail = new PHPMailer(true);
 
-try {
-  //Server settings
-  $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-  $mail->isSMTP();                                            //Send using SMTP
-  $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-  $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-  $mail->Username   = 'mail of user';                     //SMTP username
-  $mail->Password   = 'app password for google';                               //SMTP password
-  $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-  $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+  try {
+    //Server settings
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'tamalpakrasi2003@gmail.com';                     //SMTP username
+    $mail->Password   = 'ermb ihzt ohbp wwnk';                               //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-  //Recipients
-  $mail->setFrom('sender_mail', 'sender_name');
-  $mail->addAddress('recipant_mail', 'recipant_name');     //Add a recipient
-  // $mail->addAddress('ellen@example.com');               //Name is optional
-  // $mail->addReplyTo('info@example.com', 'Information');
-  // $mail->addCC('cc@example.com');
-  // $mail->addBCC('bcc@example.com');
+    //Recipients
+    $mail->setFrom('tamalpakrasi2003@gmail.com', 'TaiToNaki.pvt.lt');
+    $mail->addAddress($to, "Customer");     //Add a recipient
+    // $mail->addAddress('ellen@example.com');               //Name is optional
+    $mail->addReplyTo('tamalpakrasi2003@gmail.com', 'Information');
+    $mail->addCC('tamalpakrasi11@gmail.com');
+    // $mail->addBCC('bcc@example.com');
 
-  //Attachments
-  // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-  // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+    //Attachments
+    $mail->addAttachment("uploads/$file");         //Add attachments
+    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
-  //Content
-  $mail->isHTML(true);                                  //Set email format to HTML
-  $mail->Subject = 'Hi! This is an email sent via PHP script';
-  $mail->Body    = "ONE HTML ELEMENT";
-  $mail->AltBody = 'Boro screen e dekh dharos kothakar';
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = $subject;
+    $mail->Body    = $body;
+    $mail->AltBody = $body;
 
-  $mail->send();
-  echo 'Message has been sent';
-} catch (Exception $e) {
-  echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    $mail->send();
+
+    $sql = "UPDATE `tmail` SET `status` = 'sent' WHERE `id` = '$id'";
+
+    $res = mysqli_query($conn, $sql);
+
+    if ($res) {
+      echo 'Message has been sent';
+      return true;
+    } else {
+      return false;
+    }
+  } catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+  }
 }
