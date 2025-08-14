@@ -88,8 +88,111 @@
       type="button"
       class="btn btn-primary position-absolute bottom-0 end-0 z-3 px-4 py-2 fs-5 shadow"
       id="compose"
+      data-coreui-toggle="modal"
+      data-coreui-target="#composeMail"
     >
       Compose
     </button>
+    <div
+      class="modal fade"
+      id="composeMail"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Compose Mail</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-coreui-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              id="composeMailForm"
+              action="back.php"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <div class="mb-3">
+                <label for="To" class="form-label">To</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="To"
+                  name="to"
+                  aria-describedby="emailHelp"
+                  placeholder="Recipent email.."
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="subject" class="form-label">Subject</label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  class="form-control"
+                  placeholder="Subject..."
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="body" class="form-label">Subject</label>
+                <textarea
+                  id="body"
+                  name="body"
+                  class="form-control"
+                  placeholder="Content here..."
+                  required
+                ></textarea>
+              </div>
+              <input
+                type="file"
+                id="file"
+                name="file"
+                class="form-control d-none"
+                required
+              />
+            </form>
+          </div>
+          <div class="modal-footer position-relative">
+            <div class="flex-grow-1">
+              <button
+                id="attachment"
+                type="button"
+                data-coreui-toggle="tooltip"
+                data-coreui-placement="top"
+                data-coreui-custom-class="custom-tooltip"
+                data-coreui-title="add an attachment"
+                class="btn"
+              >
+                🔗
+              </button>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-coreui-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              form="composeMailForm"
+              class="btn btn-primary"
+            >
+              Send Mail
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
   </body>
 </html>

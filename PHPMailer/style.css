@@ -6,3 +6,10 @@
 #drafts:checked ~ main #draftmails {
   display: block !important;
 }
+
+#body {
+  resize: none !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  height: 120px !important;
+}
