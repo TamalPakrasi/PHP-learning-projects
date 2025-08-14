@@ -1,3 +1,8 @@
 #compose {
   transform: translateY(-10px) translateX(-20px);
 }
+
+#sent:checked ~ main #sentmails,
+#drafts:checked ~ main #draftmails {
+  display: block !important;
+}

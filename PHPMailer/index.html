@@ -20,28 +20,76 @@
 
   <body>
     <div id="root" class="min-vh-100 d-flex">
+      <!-- view control inputs -->
+      <input
+        type="radio"
+        name="nav-radio"
+        value="Sent"
+        id="sent"
+        class="d-none"
+        checked
+      />
+      <input
+        type="radio"
+        name="nav-radio"
+        value="drafts"
+        id="drafts"
+        class="d-none"
+      />
       <!-- sidebar -->
       <div class="sidebar border-end bg-primary bg-gradient">
         <div class="sidebar-header border-bottom">
-          <div class="sidebar-brand fs-4 text-white fw-bold">Tmail</div>
+          <div class="sidebar-brand fs-4 text-white fw-bold">✉️ Tmail</div>
         </div>
         <ul class="sidebar-nav">
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <label for="sent" class="nav-link active" role="button">
               <i class="nav-icon cil-speedometer"></i> Sent
-            </a>
+            </label>
           </li>
           <li class="nav-item mt-1">
-            <a class="nav-link" href="#">
+            <label for="drafts" class="nav-link" role="button">
               <i class="nav-icon cil-speedometer"></i> Drafts
-            </a>
+            </label>
           </li>
         </ul>
         <div class="sidebar-footer border-top d-flex text-white">
           &copy;copyright 2025
         </div>
       </div>
+      <!-- main area -->
+      <main class="flex-grow-1 position-relative p-5">
+        <!-- sent mails -->
+        <div class="w-100 h-100 d-none" id="sentmails">
+          <h2 class="text-primary mb-3">➤ Sent Emails</h2>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+            <li class="list-group-item">A fourth item</li>
+            <li class="list-group-item">And a fifth one</li>
+          </ul>
+        </div>
+        <!-- draft mails -->
+        <div class="w-100 h-100 d-none" id="draftmails">
+          <h2 class="text-primary mb-3">➤ Drafts</h2>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+            <li class="list-group-item">A fourth item</li>
+            <li class="list-group-item">And a fifth one</li>
+          </ul>
+        </div>
+      </main>
     </div>
-    <button type="button" class="btn btn-primary position-absolute bottom-0 end-0 z-3 px-4 py-2 fs-5" id="compose">Compose</button>
+    <!-- compose button -->
+    <button
+      type="button"
+      class="btn btn-primary position-absolute bottom-0 end-0 z-3 px-4 py-2 fs-5 shadow"
+      id="compose"
+    >
+      Compose
+    </button>
   </body>
 </html>
