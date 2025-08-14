@@ -32,7 +32,7 @@ function uploadFile(string $newfile, string $tmpLoc): bool
   }
 }
 
-function saveAndSendMail(string $json_array, string $to, string $subject, string $body)
+function saveAndSendMail(string $json_array, string $to, string $subject, string $body, bool $send)
 {
   global $conn;
   global $uploads;
@@ -44,13 +44,13 @@ function saveAndSendMail(string $json_array, string $to, string $subject, string
   $res = mysqli_query($conn, $sql);
 
   if ($res) {
-    $filesArray = json_decode($json_array);
-    if (sendMail($to, $subject, $body, $filesArray, $id)) {
-      $msg = "Mail Sent successfully";
-      header("Location: index.php?msg=$msg");
-      die();
+    if ($send) {
+      $filesArray = json_decode($json_array);
+      sendMail($to, $subject, $body, $filesArray, $id);
     } else {
-      dumpDie("Error sending email");
+      $msg = "File saved as drafts";
+      header("Location: index.php?msg=$msg&send=false");
+      die();
     }
   } else {
     unlink("$uploads/$json_array");

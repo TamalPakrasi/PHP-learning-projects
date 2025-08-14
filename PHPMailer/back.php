@@ -7,6 +7,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["files"])) {
   $to = (string) trim($_POST["to"]);
   $subject = (string) trim($_POST["subject"]);
   $body = (string) trim($_POST["body"]);
+  $send = false;
+
+  if (isset($_GET["send"])) {
+    $send = true;
+  }
 
   if (!$to || !$subject || !$body) {
     dumpDie("Invalid data");
@@ -31,10 +36,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["files"])) {
     }
   }
 
-  foreach ($mimetypes as $type) {
+  foreach ($mimetypes as $ind => $type) {
     if (str_contains($type, "javascript")) {
-      dumpDie("Invalid file type | File cannot be related to javascript");
+      unset($filenames[$ind]);
     }
+  }
+
+  if (count($filenames) === 0) {
+    dumpDie("Javascript files cannot be uploaded");
   }
 
   $truncateCount = 0;
@@ -62,6 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["files"])) {
 
   if (count($filesArray) > 0) {
     $json_array = json_encode($filesArray);
-    saveAndSendMail($json_array, $to, $subject, $body);
+    saveAndSendMail($json_array, $to, $subject, $body, $send);
   }
 }

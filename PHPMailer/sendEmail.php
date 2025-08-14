@@ -8,6 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 //Load Composer's autoloader (created by composer, not included with PHPMailer)
 require 'vendor/autoload.php';
 require_once __DIR__ . "/connect.php";
+require_once __DIR__ . "/function.php";
 
 function sendMail(string $to, string $subject, string $body, array $filesArray, string $id)
 {
@@ -17,7 +18,8 @@ function sendMail(string $to, string $subject, string $body, array $filesArray, 
 
   try {
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -45,18 +47,17 @@ function sendMail(string $to, string $subject, string $body, array $filesArray, 
     $mail->Subject = $subject;
     $mail->Body    = $body;
     $mail->AltBody = $body;
-
-    $mail->send();
-
+    
     $sql = "UPDATE `tmail` SET `status` = 'sent' WHERE `id` = '$id'";
-
+    
     $res = mysqli_query($conn, $sql);
-
-    if ($res) {
-      echo 'Message has been sent';
-      return true;
+      
+    if ($res && $mail->send()) {
+      $msg = "Mail Sent successfully";
+      header("Location: index.php?msg=$msg&send=true");
+      die();
     } else {
-      return false;
+      dumpDie("Error sending email");
     }
   } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
