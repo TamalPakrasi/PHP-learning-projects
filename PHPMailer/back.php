@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require_once __DIR__ . "/function.php";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["file"])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["files"])) {
   $to = (string) trim($_POST["to"]);
   $subject = (string) trim($_POST["subject"]);
   $body = (string) trim($_POST["body"]);
@@ -17,30 +17,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["file"])) {
     dumpDie("Invalid email format");
   }
 
-  $file = $_FILES["file"];
+  $files = (array) $_FILES["files"];
 
-  $file = (array) $_FILES["file"];
+  $filenames = (array) $files["name"];
+  $mimetypes = (array) $files["type"];
+  $tmpLocs = (array) $files["tmp_name"];
+  $sizeInBytes = (array) $files["size"];
+  $errs = (array) $files["error"];
 
-  $filename = (string) $file["name"];
-  $tmpLoc = (string) $file["tmp_name"];
-  $sizeInBytes = (int) $file["size"];
-  $err = (int) $file["error"];
-
-  if ($err === 0) {
-    $mimetype = mime_content_type($filename);
-    if (str_starts_with($mimetype, "image/")) {
-      if ($sizeInBytes <= 1 * 1024 * 1024) {
-        ensureUploads();
-
-        $exe = pathinfo($filename, PATHINFO_EXTENSION);
-        uploadAndStoreToDB($exe, $tmpLoc, $to, $subject, $body);
-      } else {
-        dumpDie("Image too large, must be within 1 MB");
-      }
-    } else {
-      dumpDie("File must be an image");
+  foreach ($errs as $err) {
+    if ($err !== 0) {
+      dumpDie("Invalid Process");
     }
-  } else {
-    dumpDie("Invalid File Records");
+  }
+
+  foreach ($mimetypes as $type) {
+    if (str_contains($type, "javascript")) {
+      dumpDie("Invalid file type | File cannot be related to javascript");
+    }
+  }
+
+  $truncateCount = 0;
+  $filesArray = [];
+  ensureUploads();
+
+  foreach ($sizeInBytes as $ind => $size) {
+    if ($size > 15 * 1024 * 1024) {
+      $truncateCount++;
+      $errorMsg = "$truncateCount Files trucated";
+      continue;
+    }
+
+    $tmpLoc = (string) $tmpLocs[$ind];
+
+    $exe = (string) pathinfo($filenames[$ind], PATHINFO_EXTENSION);
+    $newfile = uniqid("FILE-", true) . ".$exe";
+
+    if (!uploadFile($newfile, $tmpLoc)) {
+      abortProcess($filesArray);
+    }
+
+    $filesArray[$ind] = $newfile;
+  }
+
+  if (count($filesArray) > 0) {
+    $json_array = json_encode($filesArray);
+    saveAndSendMail($json_array, $to, $subject, $body);
   }
 }

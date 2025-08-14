@@ -154,7 +154,8 @@
               <input
                 type="file"
                 id="file"
-                name="file"
+                name="files[]"
+                multiple
                 class="form-control d-none"
                 required
               />

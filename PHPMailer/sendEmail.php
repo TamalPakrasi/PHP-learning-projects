@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 require_once __DIR__ . "/connect.php";
 
-function sendMail(string $to, string $subject, string $body, string $file, string $id)
+function sendMail(string $to, string $subject, string $body, array $filesArray, string $id)
 {
   global $conn;
   //Create an instance; passing `true` enables exceptions
@@ -35,7 +35,9 @@ function sendMail(string $to, string $subject, string $body, string $file, strin
     // $mail->addBCC('bcc@example.com');
 
     //Attachments
-    $mail->addAttachment("uploads/$file");         //Add attachments
+    foreach ($filesArray as $file) {
+      $mail->addAttachment("uploads/$file");         //Add attachments
+    }
     // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
     //Content

@@ -22,7 +22,7 @@ function ensureUploads()
   }
 }
 
-function upload(string $newfile, string $tmpLoc): bool
+function uploadFile(string $newfile, string $tmpLoc): bool
 {
   global $uploads;
   if (move_uploaded_file($tmpLoc, "$uploads/$newfile")) {
@@ -32,33 +32,39 @@ function upload(string $newfile, string $tmpLoc): bool
   }
 }
 
-function saveToDB(string $newfile, string $to, string $subject, string $body) {
+function saveAndSendMail(string $json_array, string $to, string $subject, string $body)
+{
   global $conn;
   global $uploads;
   $bytes = random_bytes(16);
   $id = bin2hex($bytes); //32 chars
 
-  $sql = "INSERT INTO `tmail`(`id`, `toEmail`, `subject`, `body`, `attachment`) VALUES ('$id','$to','$subject','$body','$newfile')";
+  $sql = "INSERT INTO `tmail`(`id`, `toEmail`, `subject`, `body`, `attachment`) VALUES ('$id','$to','$subject','$body','$json_array')";
 
   $res = mysqli_query($conn, $sql);
 
   if ($res) {
-    if (sendMail($to, $subject, $body, $newfile, $id)) {
-      header("Location: index.php?msg=success");
+    $filesArray = json_decode($json_array);
+    if (sendMail($to, $subject, $body, $filesArray, $id)) {
+      $msg = "Mail Sent successfully";
+      header("Location: index.php?msg=$msg");
       die();
     } else {
       dumpDie("Error sending email");
     }
   } else {
-    unlink("$uploads/$newfile");
+    unlink("$uploads/$json_array");
     dumpDie("Something went wrong");
   }
 }
 
-function uploadAndStoreToDB(string $exe, string $tmpLoc, string $to, string $subject, string $body)
+function abortProcess(array $filesArray)
 {
-  $newfile = uniqid("IMG-", true) . ".$exe";
-  if (upload($newfile, $tmpLoc)) {
-    saveToDB($newfile, $to, $subject, $body);
+  global $uploads;
+  if (count($filesArray) > 0) {
+    foreach ($filesArray as $file) {
+      unlink("$uploads/$file");
+    }
   }
+  dumpDie("Something went wrong | File uploading failed");
 }
