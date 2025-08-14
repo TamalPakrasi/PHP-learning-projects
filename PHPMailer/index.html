@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tmail</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.4.1/dist/css/coreui.min.css"
+      rel="stylesheet"
+      integrity="sha384-NlsxdkweGA8nr9s0TVc3Qu2zqhWMNsHrvzMpAjVR0yDqXgC2z+RWYoeCNG2uO2MC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.4.1/dist/js/coreui.bundle.min.js"
+      integrity="sha384-A/PJYVqbBIxVQjEeGNq+sol2Ti2m1CIs9UqTU4QAPHMm+4V/Qzov2cZYatOxoVgf"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="root" class="min-vh-100 d-flex">
+      <!-- sidebar -->
+      <div class="sidebar border-end bg-primary bg-gradient">
+        <div class="sidebar-header border-bottom">
+          <div class="sidebar-brand fs-4 text-white fw-bold">Tmail</div>
+        </div>
+        <ul class="sidebar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">
+              <i class="nav-icon cil-speedometer"></i> Sent
+            </a>
+          </li>
+          <li class="nav-item mt-1">
+            <a class="nav-link" href="#">
+              <i class="nav-icon cil-speedometer"></i> Drafts
+            </a>
+          </li>
+        </ul>
+        <div class="sidebar-footer border-top d-flex text-white">
+          &copy;copyright 2025
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary position-absolute bottom-0 end-0 z-3 px-4 py-2 fs-5" id="compose">Compose</button>
+  </body>
+</html>
