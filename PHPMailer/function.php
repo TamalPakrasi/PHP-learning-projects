@@ -68,3 +68,16 @@ function abortProcess(array $filesArray)
   }
   dumpDie("Something went wrong | File uploading failed");
 }
+
+function renderMails($res)
+{
+  $hasData = false;
+  while ($data = mysqli_fetch_assoc($res)) {
+    $hasData = true;
+    include __DIR__ . "/partials/list.php";
+  }
+
+  if (!$hasData) {
+    echo "<li class='list-group-item text-center fs-3 fw-bold'>No Mails</li>";
+  }
+}

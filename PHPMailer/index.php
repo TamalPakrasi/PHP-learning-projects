@@ -1,6 +1,17 @@
-<?php 
+<?php
+require_once __DIR__ . "/connect.php";
+require_once __DIR__ . "/function.php";
 
+function callDB(mysqli $conn, string $sts)
+{
+  $sql = "SELECT `toEmail`, `subject`, `body`, `created_at` FROM `tmail` WHERE `status` = '$sts'";
+  $res = mysqli_query($conn, $sql);
 
+  if (!$res) {
+    dumpDie("Failed to fetch data from Database");
+  }
+  return $res;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,22 +75,20 @@
       <div class="w-100 h-100 d-none" id="sentmails">
         <h2 class="text-primary mb-3">➤ Sent Emails</h2>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-          <li class="list-group-item">A fourth item</li>
-          <li class="list-group-item">And a fifth one</li>
+        <?php 
+          $res = callDB($conn, "sent");
+          renderMails($res) 
+          ?>
         </ul>
       </div>
       <!-- draft mails -->
       <div class="w-100 h-100 d-none" id="draftmails">
         <h2 class="text-primary mb-3">➤ Drafts</h2>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-          <li class="list-group-item">A fourth item</li>
-          <li class="list-group-item">And a fifth one</li>
+          <?php 
+          $res = callDB($conn, "draft");
+          renderMails($res) 
+          ?>
         </ul>
       </div>
     </main>
@@ -137,7 +146,7 @@
                 required />
             </div>
             <div class="mb-3">
-              <label for="body" class="form-label">Subject</label>
+              <label for="body" class="form-label">Body</label>
               <textarea
                 id="body"
                 name="body"
