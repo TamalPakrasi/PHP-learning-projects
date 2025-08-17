@@ -12,6 +12,9 @@
 
 <body>
   <?php require_once __DIR__ . "/root.php"; ?>
+  <?php if ($title === "Tasks") : ?>
+    <script src="script.js"></script>
+  <?php endif; ?>
 </body>
 
 </html>

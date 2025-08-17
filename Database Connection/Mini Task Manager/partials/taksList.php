@@ -11,49 +11,34 @@
       </tr>
     </thead>
     <tbody>
-      <?php while ($data = mysqli_fetch_assoc($resTask)) : ?>
-
+      <?php
+      $hasData = false;
+      while ($data = mysqli_fetch_assoc($resTask)) : $hasData = true; ?>
         <tr>
           <th>
             <label>
-              <input type="checkbox" class="checkbox" <?php echo $data["isComplete"] === "1" ? "checked" : ""  ?> />
+              <input type="checkbox" class="checkbox" name="check" data-id="<?php echo $data["id"] ?>" <?php echo $data["isComplete"] === "1" ? "checked" : ""  ?> />
             </label>
           </th>
-          <td>
+          <td class="<?php echo $data["isComplete"] ? "line-through" : "" ?>">
             <?php echo $data["task"]; ?>
           </td>
-          <td><?php echo $data["priority"]; ?></td>
-          <td>
+          <td class="<?php echo $data["isComplete"] ? "line-through" : "" ?>">
+            <?php echo $data["priority"]; ?>
+          </td>
+          <td class="<?php echo $data["isComplete"] ? "line-through" : "" ?>">
             <?php echo $data["worker"]; ?>
           </td>
           <th>
-            <button class="btn btn-ghost btn-sm">Edit</button>
-            <button class="btn btn-ghost btn-sm">Delete</button>
+            <button class="btn btn-ghost btn-sm edit" data-id="<?php echo $data["id"]; ?>">Edit</button>
+            <button class="btn btn-ghost btn-sm delete" data-id="<?php echo $data["id"]; ?>" data-complete="<?php echo $data["isComplete"] ?>">Delete</button>
           </th>
         </tr>
       <?php endwhile; ?>
-      <!-- row 1 -->
 
-      <!-- row 2 -->
-      <!-- <tr>
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <td>
-          Alice
-        </td>
-        <td>
-          Carroll Group
-          <br />
-          <span class="badge badge-ghost badge-sm">Tax Accountant</span>
-        </td>
-        <td>Red</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr> -->
+      <?php if (!$hasData) : ?>
+        <tr>No Tasks</tr>
+      <?php endif; ?>
     </tbody>
   </table>
 </div>
