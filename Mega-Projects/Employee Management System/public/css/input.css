@@ -5,6 +5,10 @@
     background: radial-gradient(1200px 800px at 10% -10%, #1b2450, transparent),
       radial-gradient(800px 800px at 110% 10%, #1a2a52, transparent), #0b1020;
   }
+
+  .container-max {
+    @apply w-full sm:max-w-120 md:max-w-160 lg:max-w-200 xl:max-w-240 2xl:max-w-280
+  }
 }
 
 @theme {
