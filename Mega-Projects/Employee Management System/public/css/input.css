@@ -7,7 +7,11 @@
   }
 
   .container-max {
-    @apply w-full sm:max-w-120 md:max-w-160 lg:max-w-200 xl:max-w-240 2xl:max-w-280
+    @apply w-full sm:max-w-120 md:max-w-160 lg:max-w-200 xl:max-w-240 2xl:max-w-280;
+  }
+
+  .card-cover {
+    @apply bg-linear-180 from-nav-1 to-nav-2 shadow-box backdrop-blur-sm border-border-box border rounded-full p-3;
   }
 }
 
