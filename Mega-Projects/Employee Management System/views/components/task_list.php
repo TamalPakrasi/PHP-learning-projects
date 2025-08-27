@@ -2,7 +2,7 @@
   <div class="px-2 grid grid-cols-[fit-content(20px)_1fr] sm:grid-cols-[fit-content(20px)_1fr_1fr] 
   gap-x-2 md:gap-x-4 gap-y-3 sm:gap-y-1 md:gap-y-3">
     <div>
-      <input type="checkbox" class="size-4 md:size-5 lg:size-5.5 accent-blue-400 focus:outline-0">
+      <input type="checkbox" class="size-4 md:size-5 lg:size-5.5 accent-blue-400 focus:outline-0 cursor-pointer">
     </div>
 
     <h2 class="text-white font-bold text-sm md:text-base lg:text-lg whitespace-nowrap">Wireframe dashboard widgets</h2>

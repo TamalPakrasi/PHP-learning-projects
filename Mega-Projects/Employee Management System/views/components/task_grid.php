@@ -1,15 +1,28 @@
-<?php
-$dropdowns = ["employee", "priority"];
-$date = "due_date";
-?>
-<form action="" method="post" class="form-grid lg:grid-cols-[1fr_1fr_1fr_100px]">
-  <?php
-  foreach ($dropdowns as $dropdown) {
-    include __DIR__ . "/dropdown.php";
-  }
-  ?>
 
-  <?php include_once __DIR__ . "/dateInput.php" ?>
+<form action="" method="post" class="form-grid lg:grid-cols-[1fr_1fr_1fr_100px]">
+  <div>
+    <label for="employee" class="block text-gray-400 mb-2 text-[12px] md:text-sm">Employee</label>
+
+    <select name="employee" id="employee" class="block w-full form-field font-semibold p-2">
+      <option selected disabled>-- Choose One --</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="employee" class="block text-gray-400 mb-2 text-[12px] md:text-sm">Employee</label>
+
+    <select name="employee" id="employee" class="block w-full form-field font-semibold p-2">
+      <option selected disabled>-- Choose One --</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="due_date" class="block text-gray-400 mb-2 text-[12px] md:text-sm">
+      Due Date
+    </label>
+
+    <input type="date" name="due_date" id="due_date" class="block w-full form-field p-2 border border-gray-700">
+  </div>
 
   <div class="md:col-span-full lg:row-start-2 lg:col-span-4">
     <label for="task_title" class="block text-gray-400 mb-2 text-[12px] md:text-sm">Task Title</label>

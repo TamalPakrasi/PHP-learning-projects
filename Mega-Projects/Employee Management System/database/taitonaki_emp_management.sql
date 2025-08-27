@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2025 at 07:04 PM
+-- Generation Time: Aug 27, 2025 at 10:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,7 +36,16 @@ CREATE TABLE `employees` (
   `joined_at` date NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`emp_id`, `employee_name`, `job_id`, `gender`, `email`, `joined_at`, `created_at`, `updated_at`) VALUES
+(1, 'John Doe', 3, 'male', 'johndoe@gmail.com', '2025-08-19', '2025-08-28 01:02:01', '2025-08-28 01:02:01'),
+(2, 'Sayani Mukherjee', 2, 'female', 'sayanimukherjee@gmail.com', '2025-08-19', '2025-08-28 01:30:28', '2025-08-28 01:30:28'),
+(3, 'Tamal Pakrasi', 4, 'male', 'tamalpakrasi89@gmail.com', '2025-08-18', '2025-08-28 01:35:03', '2025-08-28 01:35:03');
 
 -- --------------------------------------------------------
 
@@ -49,6 +58,16 @@ CREATE TABLE `job_role` (
   `job_role` varchar(250) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `job_role`
+--
+
+INSERT INTO `job_role` (`job_id`, `job_role`, `created_at`) VALUES
+(1, 'Management', '2025-08-27 22:44:05'),
+(2, 'Technical', '2025-08-27 22:44:27'),
+(3, 'Non-Technical', '2025-08-27 22:44:39'),
+(4, 'Support', '2025-08-27 22:44:59');
 
 -- --------------------------------------------------------
 
@@ -78,13 +97,15 @@ CREATE TABLE `tasks` (
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`emp_id`),
   ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `unique_email` (`email`),
   ADD KEY `FK_job_role` (`job_id`);
 
 --
 -- Indexes for table `job_role`
 --
 ALTER TABLE `job_role`
-  ADD PRIMARY KEY (`job_id`);
+  ADD PRIMARY KEY (`job_id`),
+  ADD UNIQUE KEY `job_role` (`job_role`);
 
 --
 -- Indexes for table `tasks`
@@ -107,7 +128,7 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `job_role`
 --
 ALTER TABLE `job_role`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tasks`
