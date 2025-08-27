@@ -1,23 +1,40 @@
 @import "tailwindcss";
 
-@layer utilities {
+@layer base {
   .bg-root {
     background: radial-gradient(1200px 800px at 10% -10%, #1b2450, transparent),
       radial-gradient(800px 800px at 110% 10%, #1a2a52, transparent), #0b1020;
   }
+}
 
+@layer utilities {
   .container-max {
     @apply w-full sm:max-w-120 md:max-w-160 lg:max-w-200 xl:max-w-240 2xl:max-w-280;
   }
 
   .card-cover {
-    @apply bg-linear-180 from-nav-1 to-nav-2 shadow-box backdrop-blur-sm border-border-box border rounded-full p-3;
+    @apply bg-linear-180 from-nav-1 to-nav-2 shadow-box backdrop-blur-sm border-border-box border rounded-2xl p-3;
+  }
+
+  .form-grid {
+    @apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[1fr_1fr_1fr_100px] gap-3 px-2;
+  }
+
+  .form-field {
+    @apply bg-dropdown text-white rounded-2xl focus:outline-3 focus:outline-blue-400 shadow text-[12px] md:text-sm;
+  }
+
+  .btn {
+    @apply bg-linear-180 from-btn-1 to-nav-2 text-[12px] md:text-sm text-white font-semibold border border-blue-300 size-fit py-2 
+    px-3.5 rounded-xl;
   }
 }
 
 @theme {
+  --color-dropdown: #0e1430;
   --color-nav-1: rgba(255, 255, 255, 0.04);
   --color-nav-2: rgba(255, 255, 255, 0.02);
+  --color-btn-1: rgba(255, 255, 255, 0.06);
   --shadow-box: 0 10px 30px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.2);
   --color-border-box: rgba(255, 255, 255, 0.08);
 }
