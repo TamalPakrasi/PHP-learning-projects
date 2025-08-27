@@ -13,11 +13,12 @@
   }
 
   .card-cover {
-    @apply bg-linear-180 from-nav-1 to-nav-2 shadow-box backdrop-blur-sm border-border-box border rounded-2xl p-3;
+    @apply bg-linear-180 from-nav-1 to-nav-2 shadow-box backdrop-blur-sm border-border-box border 
+    rounded-2xl p-3;
   }
 
   .form-grid {
-    @apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[1fr_1fr_1fr_100px] gap-3 px-2;
+    @apply grid grid-cols-1 md:grid-cols-3 gap-3 px-2 py-3;
   }
 
   .form-field {
@@ -25,8 +26,8 @@
   }
 
   .btn {
-    @apply bg-linear-180 from-btn-1 to-nav-2 text-[12px] md:text-sm text-white font-semibold border border-blue-300 size-fit py-2 
-    px-3.5 rounded-xl;
+    @apply bg-linear-180 from-btn-1 to-nav-2 text-[12px] md:text-sm text-white font-semibold border border-blue-300 size-fit  
+    px-3.5 rounded-xl cursor-pointer;
   }
 }
 
