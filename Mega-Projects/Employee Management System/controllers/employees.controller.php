@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . "/../controllers/fetchJobRoles.controller.php";
-include_once __DIR__ . "/../controllers/fetchEmployeeDetails.controller.php";
+require_once __DIR__ . "/fetchJobRoles.controller.php";
+require_once __DIR__ . "/fetchEmployeeDetails.controller.php";
 
 $title = "Task - Employees";
 $active_page = "employees";

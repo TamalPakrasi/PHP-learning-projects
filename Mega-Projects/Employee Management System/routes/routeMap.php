@@ -7,4 +7,5 @@ $routes = [
 
 $actions = [
   "addEmployees" => __DIR__ . "/../controllers/addEmployees.controller.php",
+  "assignTask" => __DIR__ . "/../controllers/assignTasks.controller.php",
 ];

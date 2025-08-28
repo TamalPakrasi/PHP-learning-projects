@@ -7,7 +7,7 @@ function addEmployeeService(...$empDetails)
 {
   list($empName, $jobRole, $gender, $email, $joinedAt) = $empDetails;
 
-  if (!$empName || !$email || !$gender || !$jobRole) {
+  if (empty($empName) || empty($email) || empty($gender) || empty($jobRole)) {
     abort(404);
   }
 

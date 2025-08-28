@@ -46,9 +46,18 @@ function getJobRoles() {
 
   $res = $conn->query($sql);
 
-  if ($res->num_rows === 0) {
+  if ($res === false) {
+    $conn->close();
     abort(500);
   }
 
-  return $res;
+  if ($res->num_rows === 0) {
+    $conn->close();
+    return [];
+  }
+
+  $arr = $res->fetch_all(MYSQLI_ASSOC);
+  $conn->close();
+
+  return $arr;
 }

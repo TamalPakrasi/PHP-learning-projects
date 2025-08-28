@@ -24,11 +24,19 @@ $minDate = $date->format("Y-m-d");
 
     <select name="job_role" id="job_role" class="block w-full form-field font-semibold p-2">
       <option selected disabled>-- Choose One --</option>
-      <?php while ($data = $job_roles->fetch_assoc()) : ?>
-        <option value=<?php echo $data["job_role"]; ?>>
-          <?php echo ucwords($data["job_role"]); ?>
+      <?php
+      $hasJobRoles = false;
+      foreach ($job_roles as $role) :
+        $hasJobRoles = true
+      ?>
+        <option value=<?php echo $role["job_role"]; ?>>
+          <?php echo ucwords($role["job_role"]); ?>
         </option>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
+
+      <?php if (!$hasJobRoles) : ?>
+        <option disabled>No Job Roles</option>
+      <?php endif; ?>
     </select>
   </div>
 
@@ -50,5 +58,7 @@ $minDate = $date->format("Y-m-d");
     <input type="email" name="email" id="email" class="block w-full form-field p-3 border border-gray-700" placeholder="e.g., sam@example.com" required>
   </div>
 
-  <input type="submit" value="Add Employee" class="btn py-2 self-end md:translate-y-[-5px]">
+  <?php if ($hasJobRoles) : ?>
+    <input type="submit" value="Add Employee" class="btn py-2 self-end md:translate-y-[-5px]">
+  <?php endif; ?>
 </form>
