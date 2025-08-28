@@ -3,13 +3,19 @@
 require_once __DIR__ . "/../../utils/functions/debug.php";
 require_once __DIR__ . "/../../utils/functions/abort.php";
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "taitonaki_emp_management";
+function connectToDB(): mysqli
+{
 
-$conn = new mysqli($servername, $username, $password, $database);
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $database = "taitonaki_emp_management";
 
-if ($conn->connect_error) {
-  abort("Failed to connect database");
+  $conn = new mysqli($servername, $username, $password, $database);
+
+  if ($conn->connect_error) {
+    abort("Failed to connect database");
+  }
+
+  return $conn;
 }

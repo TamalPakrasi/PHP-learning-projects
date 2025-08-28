@@ -6,5 +6,5 @@ $routes = [
 ];
 
 $actions = [
-  "addEmployees" => __DIR__ . "/../services/addEmployees.php",
+  "addEmployees" => __DIR__ . "/../controllers/addEmployees.controller.php",
 ];

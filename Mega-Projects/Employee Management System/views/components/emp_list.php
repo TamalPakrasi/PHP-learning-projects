@@ -1,8 +1,8 @@
-<?php include_once __DIR__ . "/../../utils/functions/getRoleTheme.php"; ?>
+<?php include_once __DIR__ . "/../../utils/handlers/getRoleTheme.php"; ?>
 
 <?php
 $hasEmpDetails = false;
-while ($data = $empDetails->fetch_assoc()) :
+foreach ($empDetails as $data) :
   $hasEmpDetails = true;
 ?>
   <li class="card-cover">
@@ -15,7 +15,7 @@ while ($data = $empDetails->fetch_assoc()) :
       </div>
 
       <h2 class="text-white font-bold text-sm md:text-base lg:text-lg whitespace-nowrap">
-        <?php echo $data["employee_name"]; ?>
+        <?php echo htmlspecialchars($data["employee_name"]); ?>
       </h2>
 
       <div class="col-span-full flex gap-2 items-center 
@@ -38,7 +38,7 @@ while ($data = $empDetails->fetch_assoc()) :
       </div>
     </div>
   </li>
-<?php endwhile; ?>
+<?php endforeach; ?>
 
 <?php if (!$hasEmpDetails) : ?>
   <li class="card-cover text-white font-bold">
