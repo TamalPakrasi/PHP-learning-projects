@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . "/connections/connect.php";
 require_once __DIR__ . "/../utils/functions/abort.php";
 
 function addEmployeeToDB(...$empDetails): bool
@@ -16,7 +15,7 @@ function addEmployeeToDB(...$empDetails): bool
   $stmt = $conn->prepare("INSERT INTO `employees`(`employee_name`, `job_id`, `gender`, `email`, `joined_at`) VALUES (?, ?, ?, ?, ?)");
 
   if (!$stmt) {
-    $conn->close();
+
     return false;
   }
 
@@ -24,7 +23,7 @@ function addEmployeeToDB(...$empDetails): bool
 
   $res = $stmt->execute();
   $stmt->close();
-  $conn->close();
+
 
   return $res;
 }
@@ -40,7 +39,7 @@ function checkEmailInUse(string $email)
   $stmt = $conn->prepare("SELECT `email` FROM `employees` WHERE `email` = ?");
 
   if (!$stmt) {
-    $conn->close();
+
     abort(500);
   }
 
@@ -51,7 +50,7 @@ function checkEmailInUse(string $email)
   $exists = $stmt->num_rows() > 0;
 
   $stmt->close();
-  $conn->close();
+
 
   if ($exists) {
     abort(404);
@@ -72,17 +71,17 @@ function getEmployeeDetails(): array
   $res = $conn->query($sql);
 
   if ($res === false) {
-    $conn->close();
+
     abort(500);
   }
 
   if ($res->num_rows === 0) {
-    $conn->close();
+
     return [];
   }
 
   $arr = $res->fetch_all(MYSQLI_ASSOC);
-  $conn->close();
+
   return $arr;
 }
 
@@ -100,17 +99,17 @@ function getEmployees(): array
   $res = $conn->query($sql);
 
   if ($res === false) {
-    $conn->close();
+
     abort(500);
   }
 
   if ($res->num_rows === 0) {
-    $conn->close();
+
     return [];
   }
 
   $arr = $res->fetch_all(MYSQLI_ASSOC);
-  $conn->close();
+
   return $arr;
 }
 
@@ -125,7 +124,7 @@ function checkEmployeeExistance(string $employee)
   $stmt = $conn->prepare("SELECT `employee_name` FROM `employees` WHERE `employee_name` = ?");
 
   if (!$stmt) {
-    $conn->close();
+
     abort(500);
   }
 
@@ -136,14 +135,15 @@ function checkEmployeeExistance(string $employee)
   $exists = $stmt->num_rows() > 0;
 
   $stmt->close();
-  $conn->close();
+
 
   if (!$exists) {
     abort(404);
   }
 }
 
-function getEmployeeId(string $employee) : string {
+function getEmployeeId(string $employee): string
+{
   $conn = connectToDB();
 
   if (!$conn) {
@@ -153,7 +153,7 @@ function getEmployeeId(string $employee) : string {
   $stmt = $conn->prepare("SELECT `emp_id` FROM `employees` WHERE `employee_name` = ?");
 
   if (!$stmt) {
-    $conn->close();
+
     abort(500);
   }
 
@@ -164,7 +164,7 @@ function getEmployeeId(string $employee) : string {
   $hasId = $stmt->fetch();
 
   $stmt->close();
-  $conn->close();
+
 
   if (!$hasId) {
     abort(500);

@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . "/connections/connect.php";
 require_once __DIR__ . "/../utils/functions/abort.php";
 
 function checkJobRoleValidity(string $jobRole): string
@@ -14,7 +13,6 @@ function checkJobRoleValidity(string $jobRole): string
   $stmt = $conn->prepare("SELECT `job_id` FROM `job_role` WHERE `job_role` = ?");
 
   if (!$stmt) {
-    $conn->close();
     abort(500);
   }
 
@@ -26,7 +24,6 @@ function checkJobRoleValidity(string $jobRole): string
   $isValid = $stmt->fetch();
 
   $stmt->close();
-  $conn->close();
 
   if (!$isValid) {
     abort(400);
@@ -47,17 +44,14 @@ function getJobRoles() {
   $res = $conn->query($sql);
 
   if ($res === false) {
-    $conn->close();
     abort(500);
   }
 
   if ($res->num_rows === 0) {
-    $conn->close();
     return [];
   }
 
   $arr = $res->fetch_all(MYSQLI_ASSOC);
-  $conn->close();
 
   return $arr;
 }

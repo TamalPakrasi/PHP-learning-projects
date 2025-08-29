@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . "/connections/connect.php";
 require_once __DIR__ . "/../utils/functions/abort.php";
 
 function addTaskToDB(...$taskDetails): bool
@@ -16,15 +15,13 @@ function addTaskToDB(...$taskDetails): bool
   $stmt = $conn->prepare("INSERT INTO `tasks`(`emp_id`, `task_title`, `task_desc`, `priority`, `deadline`) VALUES (?, ?, ?, ?, ?)");
 
   if (!$stmt) {
-    $conn->close();
     abort(500);
   }
 
   $stmt->bind_param("issss", $empId, $task_title, $task_desc, $priority, $deadline);
   $res = $stmt->execute();
 
-  $stmt->close();
-  $conn->close();
+  $stmt->close(); 
 
   return $res;
 }
@@ -40,18 +37,16 @@ function getTasks() : array {
 
   $res = $conn->query($sql);
 
-  if ($res === false) {
-    $conn->close();
+  if ($res === false) {   
     abort(500);
   }
 
-  if ($res->num_rows === 0) {
-    $conn->close();
+  if ($res->num_rows === 0) {    
     return [];
   }
 
   $arr = $res->fetch_all(MYSQLI_ASSOC);
-  $conn->close();
+  
 
   return $arr;
 }

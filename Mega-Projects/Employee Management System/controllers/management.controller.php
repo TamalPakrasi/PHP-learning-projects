@@ -1,9 +1,16 @@
 <?php
 
-require_once __DIR__ . "/fetchEmployees.controller.php";
-require_once __DIR__ . "/fetchTasks.controller.php";
+require_once __DIR__ . "/../model/task.php";
+require_once __DIR__ . "/../model/employee.php";
+require_once __DIR__ . "/../utils/functions/abort.php";
 
-$title = "Task - Management";
-$active_page = "tasks";
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
+  $tasks = getTasks();
+  $employees = getEmployees();
+  $title = "Task - Management";
+  $active_page = "tasks";
 
-include_once __DIR__ . "/../views/management.view.php";
+  include_once __DIR__ . "/../views/management.view.php";
+} else {
+  abort(400);
+}

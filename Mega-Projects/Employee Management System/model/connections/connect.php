@@ -3,9 +3,8 @@
 require_once __DIR__ . "/../../utils/functions/debug.php";
 require_once __DIR__ . "/../../utils/functions/abort.php";
 
-function connectToDB(): mysqli
+function getConnection(): mysqli
 {
-
   $servername = "localhost";
   $username = "root";
   $password = "";
@@ -19,3 +18,22 @@ function connectToDB(): mysqli
 
   return $conn;
 }
+
+function connectToDB(): mysqli
+{
+  static $conn;
+  if (!$conn) {
+    $conn = getConnection();
+  }
+  return $conn;
+}
+
+function end_script_close_connection()
+{
+  $conn = connectToDB();
+  if ($conn) {
+    $conn->close();
+  }
+}
+
+register_shutdown_function('end_script_close_connection');
