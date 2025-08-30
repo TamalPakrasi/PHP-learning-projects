@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .active-link {
+    @apply font-medium text-white bg-gray-950/50;
+  }
+
+  .inactive-link {
+    @apply text-gray-300 hover:bg-white/5 hover:text-white
+  }
+}
