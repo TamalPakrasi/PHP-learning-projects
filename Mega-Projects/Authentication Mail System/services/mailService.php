@@ -12,6 +12,8 @@ function sendOTPToEmail(int $otp, string $email, string $username): bool
 {
   //Create an instance; passing `true` enables exceptions
   $mail = new PHPMailer(true);
+  $username = htmlspecialchars($username);
+  $email = htmlspecialchars($email);
 
   try {
     //Server settings
@@ -39,7 +41,7 @@ function sendOTPToEmail(int $otp, string $email, string $username): bool
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = "ONE TIME PASSWORD";
-    $mail->Body    = "<p>Hello, $username.</p><br><h2>$otp</h2>";
+    $mail->Body    = "<p>Hello, {$username}.</p><br><h2>{$otp}</h2>";
     $mail->AltBody = $otp;
 
     $mail->send();

@@ -9,7 +9,20 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  die();
+  $username = (string) trim($_POST["new_user"]);
+  $email = (string) trim($_POST["new_email"]);
+  $password = (string) trim($_POST["new_password"]);
+  $otp = (int) trim($_POST["otp"]);
+
+  if (signUpService($username, $email, $password, $otp)) {
+    session_regenerate_id();
+    $_SESSION["username"] = $username;
+    $_SESSION["email"] = $email;
+    header("Location: /");
+    die();
+  } else {
+    abort(500);
+  }
 }
 
 

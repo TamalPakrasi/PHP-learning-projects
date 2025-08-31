@@ -29,31 +29,15 @@
         </div>
       </div>
 
-      <div>
+      <div class="message_or_button">
         <button type="submit" id="send-otp" class="flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 cursor-not-allowed bg-indigo-200" disabled>
           Send OTP to email
         </button>
       </div>
-
-      <!-- <section class="mt-3 hidden">
-        <div>
-          <label for="otp" class="block text-sm/6 font-medium text-gray-700">ENTER THE ONE TIME PASSWORD</label>
-          <div class="mt-2">
-            <input id="otp" type="text" name="otp" required autocomplete="off" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base border-2 border-indigo-500 outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 select-none" placeholder="XXXX" minlength="4" maxlength="4" />
-          </div>
-        </div>
-
-        <div>
-          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500  cursor-pointer">
-            Sign up
-          </button>
-        </div>
-      </section> -->
-
-      <p class="mt-10 text-center text-sm/6 text-gray-400">
-        Already have a registered account?
-        <a href="/login" class="font-semibold text-indigo-400 hover:text-indigo-300">Log in</a>
-      </p>
     </form>
+    <p class="mt-10 text-center text-sm/6 text-gray-400">
+      Already have a registered account?
+      <a href="/login" class="font-semibold text-indigo-400 hover:text-indigo-300">Log in</a>
+    </p>
   </div>
 </div>

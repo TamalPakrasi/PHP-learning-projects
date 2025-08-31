@@ -462,6 +462,12 @@
   .border-indigo-500 {
     border-color: var(--color-indigo-500);
   }
+  .bg-gray-200 {
+    background-color: var(--color-gray-200);
+  }
+  .bg-gray-500 {
+    background-color: var(--color-gray-500);
+  }
   .bg-gray-800 {
     background-color: var(--color-gray-800);
   }
@@ -614,6 +620,9 @@
   }
   .text-indigo-500 {
     color: var(--color-indigo-500);
+  }
+  .text-indigo-600 {
+    color: var(--color-indigo-600);
   }
   .text-white {
     color: var(--color-white);

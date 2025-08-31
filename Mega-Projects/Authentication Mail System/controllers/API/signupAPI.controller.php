@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   list($username, $email) = $data["data"];
   
-  if (!checkEmailNotInUse($email["value"])) {
+  if (!checkEmailNotInUse(trim($email["value"]))) {
     sendErrorResponse(404, "Email already in use");
   }
   
@@ -25,13 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     sendErrorResponse(500, "Something went wrong");
   }
 
-  if (!sendOTPToEmail($otp, $email["value"], $username["value"])) {
+  if (!sendOTPToEmail($otp, trim($email["value"]), trim($username["value"]))) {
     unset($_SESSION["otp"]);
     sendErrorResponse(500, "Failed to send email");
   }
 
   http_response_code(201);
-  echo json_encode(["msg" => "Email Send Successfully"]);
+  echo json_encode(["msg" => "Email Sent Successfully", "to" => $email["value"]]);
   exit;
 }
 

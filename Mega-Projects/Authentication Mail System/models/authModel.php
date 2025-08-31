@@ -24,3 +24,23 @@ function emailQuery(string $email): bool
 
   return true;
 }
+
+function createAccountQuery(string $username, string $email, string $password): bool
+{
+  $conn = getDB();
+
+  if (!$conn) {
+    return false;
+  }
+
+  $stmt = $conn->prepare("INSERT INTO `auth`(`username`, `email`, `password`, `isLoggedIn`) VALUES (?, ?, ?, ?)");
+
+  if (!$stmt) {
+    return false;
+  }
+  $isLoggedIn = "1";
+  $stmt->bind_param("sssi", $username, $email, $password, $isLoggedIn);
+  $stmt->execute();
+
+  return $stmt->affected_rows > 0;
+}
