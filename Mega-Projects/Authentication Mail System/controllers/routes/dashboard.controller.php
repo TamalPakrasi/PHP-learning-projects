@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
   abort(405);
 }
 
-// routeProtector();
+routeProtector();
 
 $active_page = "dashboard";
 $view_file = __DIR__ . "/../../views/pages/dashboard.view.php";

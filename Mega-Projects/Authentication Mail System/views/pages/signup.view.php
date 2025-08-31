@@ -47,6 +47,11 @@
           Sign up
         </button>
       </div>
+
+      <p class="mt-10 text-center text-sm/6 text-gray-400">
+        Already have a registered account?
+        <a href="/login" class="font-semibold text-indigo-400 hover:text-indigo-300">Log in</a>
+      </p>
     </form>
   </div>
 </div>
