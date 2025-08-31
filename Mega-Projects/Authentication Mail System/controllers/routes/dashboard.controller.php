@@ -5,6 +5,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
   abort(405);
 }
 
+unset($_SESSION["otp"]);
+
 routeProtector();
 
 $active_page = "dashboard";

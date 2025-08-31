@@ -5,6 +5,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
   abort(405);
 }
 
+unset($_SESSION["otp"]);
+
 $active_page = "log in";
 $view_file = __DIR__ . "/../../views/pages/login.view.php";
 

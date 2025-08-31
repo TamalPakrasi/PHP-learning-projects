@@ -1,6 +1,8 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  session_regenerate_id();
+  unset($_SESSION["otp"]);
   //get raw post data
   $raw = file_get_contents("php://input");
 
