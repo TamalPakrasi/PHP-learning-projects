@@ -25,27 +25,34 @@
             <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
             <a href="/" aria-current="page" class="rounded-md px-3 py-2 text-sm <?php echo isActive("/"); ?>
             ">Dashboard</a>
-            <a href="/login" class="rounded-md px-3 py-2 text-sm font-medium <?php echo isActive("/login"); ?>
+
+            <?php if (empty($_SESSION['email']) || empty($_SESSION['username'])) : ?>
+              <a href="/login" class="rounded-md px-3 py-2 text-sm font-medium <?php echo isActive("/login"); ?>
             ">Log in</a>
-            <a href="/signup" class="rounded-md px-3 py-2 text-sm font-medium <?php echo isActive("/signup"); ?>
+              <a href="/signup" class="rounded-md px-3 py-2 text-sm font-medium <?php echo isActive("/signup"); ?>
             ">Sign up</a>
+            <?php endif; ?>
           </div>
         </div>
       </div>
-      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <!-- Profile dropdown -->
-        <el-dropdown class="relative ml-3">
-          <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 cursor-pointer">
-            <span class="absolute -inset-1.5"></span>
-            <span class="sr-only">Open user menu</span>
-            <img src="https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small_2x/profile-icon-design-free-vector.jpg" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
-          </button>
 
-          <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
-            <a href="/logout" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Log out</a>
-          </el-menu>
-        </el-dropdown>
-      </div>
+      <?php if (!empty($_SESSION['email']) || !empty($_SESSION['username'])) : ?>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <!-- Profile dropdown -->
+          <el-dropdown class="relative ml-3">
+            <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 cursor-pointer">
+              <span class="absolute -inset-1.5"></span>
+              <span class="sr-only">Open user menu</span>
+              <img src="https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small_2x/profile-icon-design-free-vector.jpg" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
+            </button>
+
+            <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
+              <a href="/logout" class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Log out</a>
+            </el-menu>
+          </el-dropdown>
+        </div>
+      <?php endif; ?>
+
     </div>
   </div>
 
@@ -54,10 +61,14 @@
       <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
       <a href="/" aria-current="page" class="block rounded-md px-3 py-2 text-base font-medium <?php echo isActive("/"); ?>
       ">Dashboard</a>
-      <a href="/login" class="block rounded-md px-3 py-2 text-base font-medium <?php echo isActive("/login"); ?>
+
+      <?php if (empty($_SESSION['email']) || empty($_SESSION['username'])) : ?>
+        <a href="/login" class="block rounded-md px-3 py-2 text-base font-medium <?php echo isActive("/login"); ?>
       ">Log in</a>
-      <a href="/signup" class="block rounded-md px-3 py-2 text-base font-medium <?php echo isActive("/signup"); ?>
+        <a href="/signup" class="block rounded-md px-3 py-2 text-base font-medium <?php echo isActive("/signup"); ?>
       ">Sign up</a>
+      <?php endif; ?>
+
     </div>
   </el-disclosure>
 </nav>
