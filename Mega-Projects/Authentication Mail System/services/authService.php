@@ -34,3 +34,31 @@ function signUpService(string $username, string $email, string $password, int $o
   }
   return (bool) createAccountQuery($username, $email, $hashPass);
 }
+
+function logInService(...$data)
+{
+  list($email, $password, $otp) = $data;
+
+  if (checkEmailNotInUse($email)) {
+    return null;
+  }
+
+  if (!empty($password)) {
+    $storedUserPass = getUserPass($email);
+
+    if (empty($storedUserPass)) {
+      return null;
+    }
+    $isValid = password_verify($password, $storedUserPass["pass"]);
+    
+    if (!$isValid) {
+      return null;
+    }
+    
+    $res = logInUserQuery($email);
+
+    return $res ? $storedUserPass["username"] : null;
+  } else {
+    return true;
+  }
+}

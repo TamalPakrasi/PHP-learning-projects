@@ -18,11 +18,7 @@ function emailQuery(string $email): bool
   $stmt->execute();
   $stmt->store_result();
 
-  if ($stmt->num_rows > 0) {
-    return false;
-  }
-
-  return true;
+  return $stmt->num_rows > 0 ? false : true;
 }
 
 function createAccountQuery(string $username, string $email, string $password): bool
@@ -42,5 +38,46 @@ function createAccountQuery(string $username, string $email, string $password): 
   $stmt->bind_param("sssi", $username, $email, $password, $isLoggedIn);
   $stmt->execute();
 
+  return $stmt->affected_rows > 0;
+}
+
+function getUserPass(string $email): array|bool
+{
+  $conn = getDB();
+
+  if (!$conn) {
+    return false;
+  }
+
+  $stmt = $conn->prepare("SELECT `username`, `password` FROM `auth` WHERE email = ?");
+
+  if (!$stmt) {
+    return false;
+  }
+
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $stmt->bind_result($username, $pass);
+
+  return $stmt->fetch() ? ["username" => $username, "pass" => $pass] : false;
+}
+
+function logInUserQuery(string $email): bool
+{
+  $conn = getDB();
+
+  if (!$conn) {
+    return false;
+  }
+
+  $stmt = $conn->prepare("UPDATE `auth` SET `isLoggedIn`='1' WHERE email = ?");
+
+  if (!$stmt) {
+    return false;
+  }
+
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  
   return $stmt->affected_rows > 0;
 }

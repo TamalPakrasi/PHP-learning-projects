@@ -12,6 +12,10 @@ function getPassNode() {
           </div>`;
 }
 
+function handleFormSubmit(e) {
+  e.preventDefault();
+}
+
 function handleFormToggle(e) {
   $loginTogglersWrapper.children().removeClass("active-login-style");
   $(this).addClass("active-login-style");
@@ -19,9 +23,11 @@ function handleFormToggle(e) {
   if ($(this).attr("data-role") === "otp") {
     $passWrapper.empty();
     $loginForm.find(`button[type="submit"]`).text("Send OTP to email");
+    $loginForm.on("submit", handleFormSubmit);
   } else {
     $passWrapper.html(getPassNode());
     $loginForm.find(`button[type="submit"]`).text("Log in");
+    $loginForm.off("submit", handleFormSubmit);
   }
 }
 
