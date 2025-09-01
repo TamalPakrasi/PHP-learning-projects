@@ -4,6 +4,7 @@ $routes = [
   "/" => __DIR__ . "/../controllers/routes/dashboard.controller.php",
   "/login" => __DIR__ . "/../controllers/routes/login.controller.php",
   "/signup" => __DIR__ . "/../controllers/routes/signup.controller.php",
+  "/logout" => __DIR__ . "/../controllers/routes/logout.controller.php",
   "/api/signup" => __DIR__ . "/../controllers/API/signupAPI.controller.php"
 ];
 

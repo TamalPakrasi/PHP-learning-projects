@@ -78,6 +78,25 @@ function logInUserQuery(string $email): bool
 
   $stmt->bind_param("s", $email);
   $stmt->execute();
-  
+
+  return $stmt->affected_rows > 0;
+}
+
+function logoutQuery(string $email) : bool {
+  $conn = getDB();
+
+  if (!$conn) {
+    return false;
+  }
+
+  $stmt = $conn->prepare("UPDATE `auth` SET `isLoggedIn`='0' WHERE email = ?");
+
+  if (!$stmt) {
+    return false;
+  }
+
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+
   return $stmt->affected_rows > 0;
 }

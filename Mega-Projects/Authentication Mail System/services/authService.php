@@ -62,3 +62,9 @@ function logInService(...$data)
     return true;
   }
 }
+
+function logoutService() : bool {
+  $email = $_SESSION["email"];
+
+  return logoutQuery($email);
+}
