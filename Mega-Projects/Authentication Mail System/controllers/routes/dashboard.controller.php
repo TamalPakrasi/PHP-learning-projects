@@ -9,6 +9,10 @@ unset($_SESSION["otp"]);
 
 routeProtector();
 
+if (!changeLoginStatusService()) {
+  abort(500);
+}
+
 $active_page = "dashboard";
 $view_file = __DIR__ . "/../../views/pages/dashboard.view.php";
 

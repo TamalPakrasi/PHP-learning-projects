@@ -51,15 +51,14 @@ function logInService(...$data)
     }
     $isValid = password_verify($password, $storedUserPass["pass"]);
     
-    if (!$isValid) {
-      return null;
-    }
-    
-    $res = logInUserQuery($email);
-
-    return $res ? $storedUserPass["username"] : null;
+    return $isValid ? $storedUserPass["username"] : null;
   } else {
-    return true;
+    $otp = (int) $otp;
+    if ($_SESSION["otp"] !== $otp) {
+      return false;
+    } 
+    $user = getUsername($email);
+    return !empty($user) ? $user : null;
   }
 }
 
@@ -67,4 +66,13 @@ function logoutService() : bool {
   $email = $_SESSION["email"];
 
   return logoutQuery($email);
+}
+
+function changeLoginStatusService() : bool {
+  $email = $_SESSION["email"];
+  if (checkLogInStatus($email)) {
+    return true;
+  }
+  $res = logInUserQuery($email);
+  return $res;
 }

@@ -1,6 +1,6 @@
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] === "GET") {
+if ($_SERVER["REQUEST_METHOD"] === "GET" && !isset($_SESSION["email"]) && !isset($_SESSION["username"])) {
   $active_page = "sign up";
   $view_file = __DIR__ . "/../../views/pages/signup.view.php";
 

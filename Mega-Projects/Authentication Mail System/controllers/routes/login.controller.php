@@ -1,6 +1,6 @@
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] === "GET") {
+if ($_SERVER["REQUEST_METHOD"] === "GET" && !isset($_SESSION["email"]) && !isset($_SESSION["username"])) {
   unset($_SESSION["otp"]);
   $active_page = "log in";
   $view_file = __DIR__ . "/../../views/pages/login.view.php";
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $email = trim($_POST["email"]);
   $password = isset($_POST["password"]) ? trim($_POST["password"]) : null;
-  $otp = isset($_POST["otp"]) ? trim($_POST["otp"]) : null;
+  $otp = isset($_POST["otp"]) ? $_POST["otp"] : null;
 
   $username = logInService($email, $password, $otp);
   if (!empty($username)) {
@@ -28,4 +28,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 header("Allow: GET, POST");
-die();
+abort(405);

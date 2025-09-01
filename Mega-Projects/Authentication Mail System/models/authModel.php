@@ -100,3 +100,43 @@ function logoutQuery(string $email) : bool {
 
   return $stmt->affected_rows > 0;
 }
+
+function getUsername(string $email) : string|bool {
+  $conn = getDB();
+
+  if (!$conn) {
+    return false;
+  }
+
+  $stmt = $conn->prepare("SELECT `username` FROM `auth` WHERE email = ?");
+
+  if (!$stmt) {
+    return false;
+  }
+
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $stmt->bind_result($username);
+
+  return $stmt->fetch() ? $username : false;
+}
+
+function checkLogInStatus(string $email) : bool {
+  $conn = getDB();
+
+  if (!$conn) {
+    return false;
+  }
+
+  $stmt = $conn->prepare("SELECT `isLoggedIn` FROM `auth` WHERE email = ? AND `isLoggedIn` = '1'");
+
+  if (!$stmt) {
+    return false;
+  }
+
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $stmt->store_result();
+
+  return $stmt->num_rows > 0;
+}

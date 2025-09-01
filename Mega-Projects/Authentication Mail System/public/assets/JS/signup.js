@@ -35,7 +35,7 @@ function handleInput(e) {
   }
 }
 
-function getOTPNode() {
+const getOTPNode = () => {
   return `<section class="mt-3">
   <div>
     <label for="otp" class="block text-sm/6 font-medium text-gray-700">ENTER THE ONE TIME PASSWORD</label>
@@ -52,7 +52,7 @@ function getOTPNode() {
 </section>`;
 }
 
-function onLoading() {
+const onLoading = () => {
   $sendOtp
     .removeClass(["cursor-pointer", "bg-indigo-500", "hover:bg-indigo-600"])
     .addClass(["cursor-none", "bg-indigo-200"])
@@ -67,16 +67,16 @@ function onLoading() {
   $sendOtp.html("Sending...");
 }
 
-function onSuccess(response, status, xhr) {
+const onSuccess = (response, status, xhr) => {
   message = { ...response, status: xhr.status };
 }
 
-function onError(xhr, status, err) {
+const onError = (xhr, status, err) => {
   const res = xhr.responseJSON;
   message = { ...res, status: xhr.status };
 }
 
-function onCompleteSuccess() {
+const onCompleteSuccess = () => {
   $(".message_or_button").html(
     `<p class="text-sm text-gray-700 font-medium">${message.msg} check <span class="text-indigo-600">${message.to}</span></p>`
   );
@@ -87,7 +87,7 @@ function onCompleteSuccess() {
   $(node).appendTo($signupForm);
 }
 
-function onCompleteFail() {
+const onCompleteFail = () => {
   $sendOtp
     .addClass(["cursor-pointer", "bg-indigo-500", "hover:bg-indigo-600"])
     .removeClass(["cursor-none", "bg-indigo-200"])
@@ -102,12 +102,12 @@ function onCompleteFail() {
   $sendOtp.html("Send OTP to email");
 
   $(
-    `<div class="text-center text-indigo-500 text-xl">${message.msg}</div>`
+    `<div class="text-center text-indigo-500 text-xl mt-3">${message.msg}</div>`
   ).insertBefore($signupForm.parent());
   message = null;
 }
 
-function onComplete() {
+const onComplete = () => {
   if (message && message.status === 201) {
     onCompleteSuccess();
   } else {

@@ -5,7 +5,8 @@ $routes = [
   "/login" => __DIR__ . "/../controllers/routes/login.controller.php",
   "/signup" => __DIR__ . "/../controllers/routes/signup.controller.php",
   "/logout" => __DIR__ . "/../controllers/routes/logout.controller.php",
-  "/api/signup" => __DIR__ . "/../controllers/API/signupAPI.controller.php"
+  "/api/signup" => __DIR__ . "/../controllers/API/signupAPI.controller.php",
+  "/api/login" => __DIR__ . "/../controllers/API/loginAPI.controller.php"
 ];
 
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
