@@ -9,14 +9,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $data = json_decode($raw, true);
   header("Content-Type: application/json");
 
-  if (!signUpFormatValidation($data)) {
+  list($username, $email, $password) = $data["data"];
+
+  if (!signUpFormatValidation($username["value"], $email["value"], $password["value"])) {
     sendErrorResponse(404, "Invalid Username or email or password");
   }
-
-  list($username, $email) = $data["data"];
   
   if (!checkEmailNotInUse(trim($email["value"]))) {
-    sendErrorResponse(404, "Email already in use");
+    sendErrorResponse(409, "Email already in use");
   }
   
   $otp = generateOTP();

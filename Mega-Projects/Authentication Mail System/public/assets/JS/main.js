@@ -36,7 +36,8 @@ else if (path === "/signup") {
     const [username, email, password] = $formdata;
 
     const validUsername =
-      username.value.trim().length > 5 && /^[a-z]+(?: [a-z]+)?$/i.test(username.value);
+      username.value.trim().length > 5 &&
+      /^[a-z]+(?: [a-z]+)?$/i.test(username.value);
 
     const validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
       email.value.trim()
@@ -106,27 +107,47 @@ else if (path === "/signup") {
 
         $sendOtp.html("Sending...");
       },
-      success: function (response) {
-        message = response;
+      success: function (response, status, xhr) {
+        message = { ...response, status: xhr.status };
       },
-      error: function (xhr, status, err) {},
+      error: function (xhr, status, err) {
+        const res = xhr.responseJSON;
+        message = { ...res, status: xhr.status };
+      },
       complete: function () {
-        if (message) {
+        if (message && message.status === 201) {
           $(".message_or_button").html(
             `<p class="text-sm text-gray-700 font-medium">${message.msg} check <span class="text-indigo-600">${message.to}</span></p>`
           );
           message = null;
           $signupForm.off("input", handleInput);
           $signupForm.off("submit", handleOTPSubmit);
-          $signupForm.on("submit", handleFormSubmit);
           $(node).appendTo($signupForm);
+        } else {
+          $sendOtp
+            .addClass([
+              "cursor-pointer",
+              "bg-indigo-500",
+              "hover:bg-indigo-600",
+            ])
+            .removeClass(["cursor-none", "bg-indigo-200"])
+            .removeAttr("disabled");
+
+          $signupForm
+            .find("input")
+            .addClass("bg-white/5")
+            .removeClass("bg-gray-200")
+            .removeAttr("readOnly");
+
+          $sendOtp.html("Send OTP to email");
+
+          $(
+            `<div class="text-center text-indigo-500 text-xl">${message.msg}</div>`
+          ).insertBefore($signupForm.parent());
+          message = null;
         }
       },
     });
-  }
-
-  function handleFormSubmit(e) {
-    console.log("hello");
   }
 
   $signupForm.on("input", handleInput);

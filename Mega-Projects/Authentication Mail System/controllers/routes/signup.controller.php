@@ -12,6 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $username = (string) trim($_POST["new_user"]);
   $email = (string) trim($_POST["new_email"]);
   $password = (string) trim($_POST["new_password"]);
+
+  if (!signUpFormatValidation($username, $email, $password)) {
+    abort(404);
+  }
+
   $otp = (int) trim($_POST["otp"]);
 
   if (signUpService($username, $email, $password, $otp)) {

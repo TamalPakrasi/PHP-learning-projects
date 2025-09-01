@@ -8,29 +8,24 @@ function routeProtector(): void
   }
 }
 
-function signUpFormatValidation(array $data) : bool
+function signUpFormatValidation(...$data): bool
 {
-  list($username, $email, $password) = $data["data"];
+  list($username, $email, $password) = $data;
 
-  $validUser = strlen(trim($username["value"])) > 5 && preg_match_all("/^[a-z]+(?: [a-z]+)?$/i", $username["value"]);
+  $validUser = strlen(trim($username)) > 5 && preg_match("/^[a-z]+(?: [a-z]+)?$/i", $username);
+  $validEmail = preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", trim($email));
+  $validPass = strlen(trim($password)) > 5;
 
-  $validEmail = preg_match_all("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", trim($email["value"]));
-
-  $validPass = strlen(trim($password["value"])) > 5;
-
-  if ($validUser && $validEmail && $validPass) {
-
-    return true;
-  } else {
-    return false;
-  }
+  return $validUser && $validEmail && $validPass;
 }
 
-function checkEmailNotInUse(string $email) : bool {
+function checkEmailNotInUse(string $email): bool
+{
   return (bool) emailQuery($email);
 }
 
-function signUpService(string $username, string $email, string $password, int $otp) : bool {
+function signUpService(string $username, string $email, string $password, int $otp): bool
+{
   $hashPass = hashPassword($password);
   if ($otp !== $_SESSION["otp"]) {
     session_unset();
