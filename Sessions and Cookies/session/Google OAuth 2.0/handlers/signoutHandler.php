@@ -7,8 +7,9 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_SESSION["username"]) && isse
   session_unset();
   session_destroy();
 
+  setcookie("PHPSESSID", "", time() - 3600, "/");
+
   session_start();
-  session_regenerate_id(true);
   set_message("Signed out successfully");
   header("Location: ../pages/signin.php");
   exit;
