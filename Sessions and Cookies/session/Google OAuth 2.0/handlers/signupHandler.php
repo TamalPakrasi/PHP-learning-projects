@@ -5,7 +5,7 @@ require_once __DIR__ . "/../utils/validateCredentails.php";
 require_once __DIR__ . "/../utils/checkEmailExists.php";
 require_once __DIR__ . "/../utils/runInsertQuery.php";
 require_once __DIR__ . "/../utils/signInUser.php";
-require_once __DIR__ . "/../utils/abortSignup.php";
+require_once __DIR__ . "/../utils/abort.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   session_start();
@@ -14,13 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     unset($_SESSION["message"]);
   }
 
-  $username = trim($_POST["username"]);
-  $email = trim($_POST["email"]);
-  $pass = trim($_POST["password"]);
-
   if (isset($_SESSION["username"]) && isset($_SESSION["email"])) {
     abortSignUp("Please Sign out before trying to sign up a new account");
   }
+
+  $username = trim($_POST["username"]);
+  $email = trim($_POST["email"]);
+  $pass = trim($_POST["password"]);
 
   if (!validateCredentials($username, $email, $pass)) {
     abortSignUp("Invalid Credentials");

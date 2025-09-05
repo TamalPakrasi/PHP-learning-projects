@@ -11,4 +11,5 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_SESSION["username"]) && isse
 }
 
 header("Allow: GET");
-exit;
+http_response_code(405);
+die("METHOD NOT EXIST");
