@@ -24,11 +24,11 @@ include_once __DIR__ . "/../handlers/message.php";
         <form action="../handlers/signinHandler.php" method="post">
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required autocomplete="off">
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required autocomplete="off">
           </div>
           <button type="submit" class="btn btn-primary w-100 mb-3">Sign In</button>
           <div class="text-center text-muted mb-2">or</div>
