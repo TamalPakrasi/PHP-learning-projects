@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 session_start();
+require_once __DIR__ . "/../google-auth/signin/google-signin.php";
 include_once __DIR__ . "/../handlers/message.php";
 ?>
 <!DOCTYPE html>

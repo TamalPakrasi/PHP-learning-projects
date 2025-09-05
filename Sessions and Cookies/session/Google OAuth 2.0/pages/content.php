@@ -32,7 +32,7 @@ if (empty($_SESSION["username"]) || empty($_SESSION["email"])) {
           <div class="flex-grow-1">
             <div class="d-flex justify-content-between align-items-start">
               <div>
-                <h6 class="mb-0">Jane Doe <small class="text-muted fw-normal">· 2h</small></h6>
+                <h6 class="mb-0"><?php echo htmlspecialchars($_SESSION["username"]); ?> <small class="text-muted fw-normal">· 2h</small></h6>
                 <p class="mb-1 text-muted small">San Francisco · Public</p>
               </div>
               <button class="btn btn-sm btn-light" type="button" aria-label="post options">•••</button>

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 session_start();
+require_once __DIR__ . "/../google-auth/signup/google-signup.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,9 +35,9 @@ session_start();
           </div>
           <button type="submit" class="btn btn-primary w-100 mb-3">Create Account</button>
           <div class="text-center text-muted mb-2">or</div>
-          <button type="button" class="btn btn-outline-danger w-100">
-            <i class="bi bi-google me-2"></i> Create Account with Google
-          </button>
+          <a href="<?php echo htmlspecialchars($authUrl); ?>" class="btn btn-outline-danger w-100">
+            Create Account with Google
+          </a>
         </form>
       </div>
     </section>
