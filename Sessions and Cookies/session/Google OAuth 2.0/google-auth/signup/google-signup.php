@@ -7,10 +7,6 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . "/../../");
 $dotenv->load();
 
-if (isset($_SESSION["username"]) && isset($_SESSION["email"])) {
-  abortSignUp("Already signed in with an account");
-}
-
 $client = new Google\Client();
 $client->setClientId($_ENV["GOOGLE_CLIENT_ID"]);
 $client->setClientSecret($_ENV["GOOGLE_CLIENT_SECRET"]);

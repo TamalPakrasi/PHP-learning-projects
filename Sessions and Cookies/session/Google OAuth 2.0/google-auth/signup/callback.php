@@ -7,6 +7,10 @@ require_once __DIR__ . "/../../utils/checkEmailExists.php";
 require_once __DIR__ . "/../../utils/runInsertQuery.php";
 session_start();
 
+if (isset($_SESSION["username"]) && isset($_SESSION["email"])) {
+  abortSignUp("Already signed in with an account");
+}
+
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . "/../../");
