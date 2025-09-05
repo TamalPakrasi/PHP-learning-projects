@@ -14,7 +14,7 @@ if (isset($_SESSION["username"]) && isset($_SESSION["email"])) {
 $client = new Google\Client();
 $client->setClientId($_ENV["GOOGLE_CLIENT_ID"]);
 $client->setClientSecret($_ENV["GOOGLE_CLIENT_SECRET"]);
-$client->setRedirectUri("http://localhost/PHP-Mini%20Projects/Sessions%20and%20Cookies/session/Google%20OAuth%202.0/google-auth/signup/callback.php");
+$client->setRedirectUri($_ENV["GOOGLE_SIGNUP_REDIRECT_LINK"]);
 $client->addScope("email");
 $client->addScope("profile");
 
