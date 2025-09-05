@@ -3,6 +3,7 @@
 declare(strict_types=1);
 include_once __DIR__ . "/../handlers/message.php";
 
+session_start();
 if (empty($_SESSION["username"]) || empty($_SESSION["email"])) {
   set_message("Please Log in to access this page");
   header("Location: signin.php");

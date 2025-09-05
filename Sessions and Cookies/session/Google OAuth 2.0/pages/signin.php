@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+session_start();
 include_once __DIR__ . "/../handlers/message.php";
 ?>
 <!DOCTYPE html>

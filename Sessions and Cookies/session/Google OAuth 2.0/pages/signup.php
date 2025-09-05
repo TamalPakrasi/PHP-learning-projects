@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,18 +19,18 @@ declare(strict_types=1);
     <section class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
       <div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%;">
         <h2 class="text-center mb-4">Sign Up</h2>
-        <form>
+        <form action="../handlers/signupHandler.php" method="post">
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" id="username" class="form-control" placeholder="Enter username" required>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input type="email" id="email" class="form-control" placeholder="Enter email" required>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
           </div>
           <button type="submit" class="btn btn-primary w-100 mb-3">Create Account</button>
           <div class="text-center text-muted mb-2">or</div>

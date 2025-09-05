@@ -31,9 +31,11 @@ include_once __DIR__ . "/../utils/isActive.php";
         <li class="nav-item">
           <a class="nav-link <?php echo isActive("/pages/signin.php"); ?>" href="<?php echo $basename . "/pages/signin.php"; ?>">Sign in</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Sign out</a>
-        </li>
+        <?php if (isset($_SESSION["username"]) && isset($_SESSION["email"])) : ?>
+          <li class="nav-item">
+            <a class="nav-link active" href="<?php echo $basename . "/handlers/signoutHandler.php"; ?>">Sign out</a>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>
