@@ -40,6 +40,10 @@ require_once __DIR__ . "/../handlers/message.php";
           <a href="<?php echo htmlspecialchars($authUrl); ?>" class="btn btn-outline-danger w-100">
             Create Account with Google
           </a>
+          <div class="text-center text-muted my-2">or</div>
+          <a href="../github-auth/signup/github-signup.php" class="btn btn-outline-success w-100">
+            Create Account with Github
+          </a>
         </form>
       </div>
     </section>

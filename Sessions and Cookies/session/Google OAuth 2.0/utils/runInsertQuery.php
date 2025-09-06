@@ -37,3 +37,22 @@ function runInsertQueryGoogle(mysqli $conn, string $username, string $email, str
   $stmt->close();
   return $res;
 }
+
+function runInsertQueryGithub(mysqli $conn, string $username, string $email, string $githubId): bool
+{
+  $stmt = $conn->prepare("INSERT INTO `oauth2` (`username`, `email`, `github_id`, `auth_style`) VALUES (?, ?, ?, ?)");
+
+  if (!$stmt) {
+    return false;
+  }
+
+  $auth_style = "github";
+  $stmt->bind_param("ssss", $username, $email, $githubId, $auth_style);
+  if (!$stmt->execute()) {
+    return false;
+  }
+
+  $res = $stmt->affected_rows > 0;
+  $stmt->close();
+  return $res;
+}
