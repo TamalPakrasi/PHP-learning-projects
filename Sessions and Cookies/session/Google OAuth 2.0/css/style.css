@@ -1,0 +1,29 @@
+.message {
+  background-color: rgb(172, 46, 0);
+  color: white;
+  border-radius: 10px;
+  width: fit-content;
+  padding-block: 15px;
+  padding-inline: 30px;
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  margin-inline: auto;
+  animation: showAlert 5000ms linear 0.2s 1 forwards;
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
+@keyframes showAlert {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+
+  10%,
+  90% {
+    opacity: 100%;
+    transform: translateY(0px);
+  }
+}
