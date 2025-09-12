@@ -16,3 +16,11 @@ spl_autoload_register(function (string $class) {
 
   require BASE_PATH . $class . ".php";
 });
+
+register_shutdown_function(function () {
+  $conn = App\core\Database::getConnStatic();
+  if ($conn instanceof mysqli) {
+    $conn->close();
+    echo "hello";
+  }
+});

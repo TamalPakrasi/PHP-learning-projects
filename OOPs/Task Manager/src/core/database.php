@@ -33,4 +33,9 @@ class Database
 
     return self::$conn;
   }
+
+  static public function getConnStatic(): ?mysqli
+  {
+    return self::$conn;
+  }
 }
