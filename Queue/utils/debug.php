@@ -1,7 +1,5 @@
 <?php
 
-namespace App\helpers;
-
 function debug($val): void
 {
   echo "<pre>";
