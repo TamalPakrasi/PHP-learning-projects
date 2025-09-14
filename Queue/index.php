@@ -55,8 +55,20 @@
 <body>
 
   <div class="upload-container">
+    <?php
+    session_start();
+    if (isset($_SESSION['upload_status'])) {
+      echo '<div style="margin-top:10px; text-align:left;">';
+      foreach ($_SESSION['upload_status'] as $msg) {
+        $color = strpos($msg, 'Queued') !== false ? 'green' : 'red';
+        echo "<div style='color:$color;'>$msg</div>";
+      }
+      echo '</div>';
+      unset($_SESSION['upload_status']); // clear messages
+    }
+    ?>
     <h2>Upload File</h2>
-    <form action="./handlers/splqueue/upload.php" method="post" enctype="multipart/form-data">
+    <form action="./handlers/rabbitMQ/upload.php" method="post" enctype="multipart/form-data">
       <input type="file" name="file[]" multiple>
       <button type="submit">Upload</button>
     </form>
