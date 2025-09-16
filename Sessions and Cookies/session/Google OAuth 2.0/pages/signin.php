@@ -4,6 +4,35 @@ declare(strict_types=1);
 session_start();
 require_once __DIR__ . "/../google-auth/signin/google-signin.php";
 include_once __DIR__ . "/../handlers/message.php";
+require_once __DIR__ . "/../DB/connections/dbConnect.php";
+require_once __DIR__ . "/../utils/getTokenFromDB.php";
+
+require __DIR__ . "/../vendor/autoload.php";
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
+
+if (isset($_COOKIE["remember"])) {
+  $rememberCookie = $_COOKIE["remember"];
+  list($userID, $token) = explode(":", $rememberCookie, 2);
+  $savedToken = getTokenFromDB($conn, $userID);
+  if (password_verify($token, $savedToken["token"])) {
+    $email = $savedToken["email"];
+
+    $encryptionKey = hex2bin($_ENV["ENC_KEY"]);
+    $iv = hex2bin($_ENV["IV"]);
+    $pass = openssl_decrypt(
+      $savedToken["password"],
+      'AES-256-CBC',
+      $encryptionKey,
+      0,
+      $iv
+    );
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,17 +54,17 @@ include_once __DIR__ . "/../handlers/message.php";
         <form action="../handlers/signinHandler.php" method="post">
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required autocomplete="off">
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required autocomplete="off" value="<?php echo $email ?? ""; ?>">
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required autocomplete="off">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required autocomplete="off" value="<?php echo $pass ?? ""; ?>">
+          </div>
+          <div class="mb-3">
+            <input type="checkbox" name="remember" id="remember" <?php echo isset($email) && isset($pass) ? "checked" : "" ?>>
+            <label for="remember">Remember me</label>
           </div>
           <button type="submit" class="btn btn-primary w-100 mb-3">Sign In</button>
-          <div class="text-center text-muted mb-2">or</div>
-          <button type="button" class="btn btn-outline-danger w-100">
-            <i class="bi bi-google me-2"></i> Sign in with Google
-          </button>
         </form>
       </div>
     </section>

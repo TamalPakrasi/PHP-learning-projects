@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2025 at 05:37 PM
+-- Generation Time: Sep 16, 2025 at 08:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,21 @@ CREATE TABLE `oauth2` (
 --
 
 INSERT INTO `oauth2` (`id`, `username`, `email`, `password`, `auth_style`, `google_id`, `github_id`, `created_at`) VALUES
-(6, 'Tamal Pakrasi', 'tamalpakrasi11@gmail.com', NULL, 'google', '115663993377052633793', NULL, '2025-09-06 20:35:05');
+(1, 'Tamal Pakrasi', 'tamalpakrasi8@gmail.com', 'epwS7k7LD/b73J1Vjautpw==', 'local', NULL, NULL, '2025-09-16 23:44:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `remember_user`
+--
+
+CREATE TABLE `remember_user` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(250) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -59,6 +73,13 @@ ALTER TABLE `oauth2`
   ADD UNIQUE KEY `github_id` (`github_id`);
 
 --
+-- Indexes for table `remember_user`
+--
+ALTER TABLE `remember_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -66,7 +87,23 @@ ALTER TABLE `oauth2`
 -- AUTO_INCREMENT for table `oauth2`
 --
 ALTER TABLE `oauth2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `remember_user`
+--
+ALTER TABLE `remember_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `remember_user`
+--
+ALTER TABLE `remember_user`
+  ADD CONSTRAINT `FK_REMEMBER` FOREIGN KEY (`user_id`) REFERENCES `oauth2` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

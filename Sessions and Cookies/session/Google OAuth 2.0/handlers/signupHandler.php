@@ -7,6 +7,13 @@ require_once __DIR__ . "/../utils/runInsertQuery.php";
 require_once __DIR__ . "/../utils/signInUser.php";
 require_once __DIR__ . "/../utils/abort.php";
 
+require __DIR__ . "/../vendor/autoload.php";
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   session_start();
 
@@ -30,9 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     abortSignUp("Email already exists");
   }
 
-  $hashPass = password_hash($pass, PASSWORD_DEFAULT);
+  $encryptionKey = hex2bin($_ENV["ENC_KEY"]);
+  $iv = hex2bin($_ENV["IV"]);
+  $encryptedPassword = openssl_encrypt($pass, 'AES-256-CBC', $encryptionKey, 0, $iv);
 
-  if (!runInsertQuery($conn, $username, $email, $hashPass)) {
+  if (!runInsertQuery($conn, $username, $email, $encryptedPassword)) {
     abortSignUp();
   }
 
