@@ -1,7 +1,5 @@
 <?php
 
-use Google\Service\BeyondCorp\Resource\V;
-
 require_once __DIR__ . "/../handlers/message.php";
 require_once __DIR__ . "/../utils/setRememberCookie.php";
 require_once __DIR__ . "/../DB/connections/dbConnect.php";
