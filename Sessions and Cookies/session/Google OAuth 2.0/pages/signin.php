@@ -66,12 +66,30 @@ if (isset($_COOKIE["remember"])) {
           </div>
           <button type="submit" class="btn btn-primary w-100 mb-3">Sign In</button>
         </form>
+        <div id="update_credentials">
+          <p class="text-center">Lost your password? <span role="button" class="text-decoration-underline text-danger" id="click-pass-change">Click here</span></p>
+        </div>
       </div>
     </section>
     <?php echo get_message(); ?>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script>
+    const clickPassChange = document.getElementById("click-pass-change");
+    const updateCredentialsZone = document.getElementById("update_credentials");
+
+    clickPassChange.addEventListener("click", (e) => {
+      updateCredentialsZone.innerHTML = "";
+      const htmlcontent = `<p style="font-size: 14px;">Enter your email address and we will send you a link to reset your password.</p>
+          <form action="../handlers/sendEmail.php" method="post" class="mt-2 d-flex align-items-center gap-1">
+            <input type="email" id="email-search" name="email-search" placeholder="Enter email" class="p-1 rounded border-1 flex-grow-1" required>
+            <button type="submit" class="btn btn-primary">Send</button>
+          </form>`;
+
+      updateCredentialsZone.innerHTML = htmlcontent;
+    })
+  </script>
 </body>
 
 </html>
